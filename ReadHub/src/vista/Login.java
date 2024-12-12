@@ -6,12 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class Login extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField userIn;
+	private JPasswordField passwordIn;
 
 	/**
 	 * Create the panel.
@@ -47,39 +48,38 @@ public class Login extends JPanel {
 		gbc_panel_5.gridy = 0;
 		add(panel_5, gbc_panel_5);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 1;
-		add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel user65 = new JLabel("Usuario");
+		GridBagConstraints gbc_user65 = new GridBagConstraints();
+		gbc_user65.insets = new Insets(0, 0, 5, 5);
+		gbc_user65.anchor = GridBagConstraints.EAST;
+		gbc_user65.gridx = 0;
+		gbc_user65.gridy = 1;
+		add(user65, gbc_user65);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		userIn = new JTextField();
+		GridBagConstraints gbc_userIn = new GridBagConstraints();
+		gbc_userIn.insets = new Insets(0, 0, 5, 5);
+		gbc_userIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_userIn.gridx = 1;
+		gbc_userIn.gridy = 1;
+		add(userIn, gbc_userIn);
+		userIn.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 2;
-		add(lblNewLabel_2, gbc_lblNewLabel_2);
+		JLabel password = new JLabel("Contraseña");
+		GridBagConstraints gbc_password = new GridBagConstraints();
+		gbc_password.insets = new Insets(0, 0, 5, 5);
+		gbc_password.anchor = GridBagConstraints.EAST;
+		gbc_password.gridx = 0;
+		gbc_password.gridy = 2;
+		add(password, gbc_password);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 1;
-		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		passwordIn = new JPasswordField();
+		GridBagConstraints gbc_passwordIn = new GridBagConstraints();
+		gbc_passwordIn.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordIn.gridx = 1;
+		gbc_passwordIn.gridy = 2;
+		add(passwordIn, gbc_passwordIn);
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
