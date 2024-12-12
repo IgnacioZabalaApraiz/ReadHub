@@ -2,6 +2,7 @@ package controlador;
 import java.awt.EventQueue;
 
 import vista.Login;
+import vista.MainPanel;
 
 public class Controlador {
 	//Este soy Ignacio
@@ -9,8 +10,9 @@ public class Controlador {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					MainPanel frame = new MainPanel();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

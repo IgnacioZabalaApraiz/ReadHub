@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JButton;
 
 public class Login extends JPanel {
 
@@ -20,9 +21,9 @@ public class Login extends JPanel {
 	public Login() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JPanel panel_3 = new JPanel();
@@ -81,12 +82,26 @@ public class Login extends JPanel {
 		gbc_passwordIn.gridy = 2;
 		add(passwordIn, gbc_passwordIn);
 		
+		JButton iniciarBt = new JButton("INICIAR");
+		GridBagConstraints gbc_iniciarBt = new GridBagConstraints();
+		gbc_iniciarBt.insets = new Insets(0, 0, 5, 5);
+		gbc_iniciarBt.gridx = 0;
+		gbc_iniciarBt.gridy = 3;
+		add(iniciarBt, gbc_iniciarBt);
+		
+		JButton registrarBt = new JButton("REGISTRAR");
+		GridBagConstraints gbc_registrarBt = new GridBagConstraints();
+		gbc_registrarBt.insets = new Insets(0, 0, 5, 0);
+		gbc_registrarBt.gridx = 2;
+		gbc_registrarBt.gridy = 3;
+		add(registrarBt, gbc_registrarBt);
+		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 3;
+		gbc_panel_2.gridy = 4;
 		add(panel_2, gbc_panel_2);
 		
 		JPanel panel_1 = new JPanel();
@@ -94,14 +109,14 @@ public class Login extends JPanel {
 		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 3;
+		gbc_panel_1.gridy = 4;
 		add(panel_1, gbc_panel_1);
 		
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 3;
+		gbc_panel.gridy = 4;
 		add(panel, gbc_panel);
 
 	}
