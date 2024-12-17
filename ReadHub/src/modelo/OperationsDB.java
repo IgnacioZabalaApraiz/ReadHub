@@ -3,10 +3,10 @@ package modelo;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class OperationsBD {
+public class OperationsDB {
 	
 	
-	public OperationsBD() {
+	public OperationsDB() {
 		
 	}
 	
