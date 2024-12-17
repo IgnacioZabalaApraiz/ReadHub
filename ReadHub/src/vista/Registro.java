@@ -19,6 +19,7 @@ public class Registro extends JPanel {
 	private JCheckBox chckbxNewCheckBox;
 	private JButton btnNewButton;
 
+	
 	/**
 	 * Create the panel.
 	 */
