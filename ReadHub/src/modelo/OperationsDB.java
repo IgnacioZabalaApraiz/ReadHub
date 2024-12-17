@@ -13,7 +13,7 @@ public class OperationsDB {
 	private String[][] ConsultBooks(Connection conn) {
 		var consult = "SELECT * FROM libros";
 		try(var preparedStatement = conn.prepareStatement(consult)){
-			
+			var resultSet = preparedStatement.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
