@@ -1,9 +1,8 @@
 package controlador;
-<<<<<<< HEAD
+
 import java.awt.EventQueue;
 import java.sql.*;
-=======
->>>>>>> refs/remotes/origin/newdevelop
+
 
 import java.awt.EventQueue;
 import vista.MainPanel;
