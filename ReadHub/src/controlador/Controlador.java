@@ -1,12 +1,15 @@
 package controlador;
+<<<<<<< HEAD
 import java.awt.EventQueue;
 import java.sql.*;
+=======
+>>>>>>> refs/remotes/origin/newdevelop
 
-import vista.Login;
+import java.awt.EventQueue;
 import vista.MainPanel;
 
 public class Controlador {
-	//Este soy Ignacio
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -20,4 +23,5 @@ public class Controlador {
 			}
 		});
 	}
+	
 }
