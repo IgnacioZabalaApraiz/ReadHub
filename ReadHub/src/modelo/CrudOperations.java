@@ -1,16 +1,18 @@
 package modelo;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 public class CrudOperations {
 	
-	public static void insertarProducto(Connection con, String titulo, String autor,String genero, String fecha_publicacion) {
-		String query="INSERT INTO libros(titulo,autor,genero,fecha_publicacion,disponibilidad) VALUES (?,?,?,?,?);" ;
+	public static void insertarLibro(Connection con, String titulo, String autor,String genero, LocalDate fecha_publicacion,int disponibilidad) {
+		String query="INSERT INTO libro(titulo,autor,genero,fecha_publicacion,disponibilidad) VALUES (?,?,?,?,?);" ;
 		try(PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, titulo);
 			pst.setString(2, autor);
 			pst.setString(3, genero);
-			pst.setString(4, fecha_publicacion);
+			pst.setDate(4, Date.valueOf(fecha_publicacion)); 
+			pst.setInt(5,disponibilidad);
 			pst.executeUpdate();
 			System.out.println("INGRESADO CORRECTAMENTE");
 		} catch (SQLException e) {
@@ -18,13 +20,12 @@ public class CrudOperations {
 			e.printStackTrace();
 		}
 	}
-	public static void listarProducto(Connection con, String category) {
-		String query="SELECT * FROM productos WHERE category = ? ;";
+	public static void listarLibros(Connection con) {
+		String query="SELECT * FROM libro ;";
 		try(PreparedStatement pst = con.prepareStatement(query)) {
-			pst.setString(1, category);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString("name"));
+				System.out.println(rs.getString("titulo")+" "+rs.getString("autor")+" "+rs.getString("genero")+" "+rs.getString("fecha_publicacion"));
 			}
 		
 		} catch (SQLException e) {
@@ -33,7 +34,7 @@ public class CrudOperations {
 		}
 	}
 	public static void actualizarProducto(Connection con, int id, int nuevoStock) {
-		String query="UPDATE productos SET stock = ? WHERE product_id = ? ;";
+		String query="UPDATE libro SET stock = ? WHERE product_id = ? ;";
 		try (PreparedStatement pst = con.prepareStatement(query)){			
 			pst.setInt(1, nuevoStock);
 			pst.setInt(2, id);
@@ -45,16 +46,35 @@ public class CrudOperations {
 		}
 		
 	}
-	public static void eliminarProducto(Connection con, int stock) {
-		String query = "DELETE FROM productos WHERE stock = ? ;";
+	public static void eliminarLibro(Connection con, String nombre) {
+		String query = "DELETE FROM libro WHERE autor = ? ;";
 		try(PreparedStatement pst = con.prepareStatement(query)) {
-			pst.setInt(1, stock);
+			pst.setString(1, nombre);
 			pst.executeUpdate();
 			System.out.println("Eiminado correctamente");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+	}
+	public static void insertarUsuario(Connection con,String dni, String nombre,String apellidos,String email,String telefono,String rol) {
+		String query = "INSERT INTO usuario(dni,nombre,apellidos,email,telefono,rol) VALUES (?,?,?,?,?,?);";
+		try(PreparedStatement pst = con.prepareStatement(query)) {
+			pst.setString(1, dni);
+			pst.setString(2, nombre);
+			pst.setString(3, apellidos);
+			pst.setString(4, email);
+			pst.setString(5, telefono);
+			
+			pst.executeUpdate();
+			System.out.println("Usuario añadido");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 }

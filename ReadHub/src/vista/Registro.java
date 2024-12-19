@@ -3,6 +3,9 @@ package vista;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
+
+import modelo.CrudOperations;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Label;
@@ -10,19 +13,18 @@ import java.awt.TextField;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Panel;
-
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 public class Registro extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField dniIn;
 	private Label label;
 	private JCheckBox chckbxNewCheckBox;
 	private JButton btnNewButton;
-
 	
-	/**
-	 * Create the panel.
-	 */
+	
+
 	public Registro() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -52,13 +54,13 @@ public class Registro extends JPanel {
 		gbc_label.gridy = 1;
 		add(label, gbc_label);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
+		dniIn = new JTextField();
+		GridBagConstraints gbc_dniIn = new GridBagConstraints();
+		gbc_dniIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_dniIn.insets = new Insets(0, 0, 5, 5);
+		gbc_dniIn.gridx = 2;
+		gbc_dniIn.gridy = 1;
+		add(dniIn, gbc_dniIn);
 		
 		Label label_1 = new Label("Nombre:");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
@@ -67,13 +69,13 @@ public class Registro extends JPanel {
 		gbc_label_1.gridy = 2;
 		add(label_1, gbc_label_1);
 		
-		TextField textField_1 = new TextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
+		TextField nombreIn = new TextField();
+		GridBagConstraints gbc_nombreIn = new GridBagConstraints();
+		gbc_nombreIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nombreIn.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreIn.gridx = 2;
+		gbc_nombreIn.gridy = 2;
+		add(nombreIn, gbc_nombreIn);
 		
 		Label label_2 = new Label("Apellidos:");
 		GridBagConstraints gbc_label_2 = new GridBagConstraints();
@@ -82,13 +84,13 @@ public class Registro extends JPanel {
 		gbc_label_2.gridy = 3;
 		add(label_2, gbc_label_2);
 		
-		TextField textField_2 = new TextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 2;
-		gbc_textField_2.gridy = 3;
-		add(textField_2, gbc_textField_2);
+		TextField apellidosIn = new TextField();
+		GridBagConstraints gbc_apellidosIn = new GridBagConstraints();
+		gbc_apellidosIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_apellidosIn.insets = new Insets(0, 0, 5, 5);
+		gbc_apellidosIn.gridx = 2;
+		gbc_apellidosIn.gridy = 3;
+		add(apellidosIn, gbc_apellidosIn);
 		
 		Label label_3 = new Label("Email:");
 		GridBagConstraints gbc_label_3 = new GridBagConstraints();
@@ -97,13 +99,13 @@ public class Registro extends JPanel {
 		gbc_label_3.gridy = 4;
 		add(label_3, gbc_label_3);
 		
-		TextField textField_3 = new TextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.gridx = 2;
-		gbc_textField_3.gridy = 4;
-		add(textField_3, gbc_textField_3);
+		TextField mailIn = new TextField();
+		GridBagConstraints gbc_mailIn = new GridBagConstraints();
+		gbc_mailIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_mailIn.insets = new Insets(0, 0, 5, 5);
+		gbc_mailIn.gridx = 2;
+		gbc_mailIn.gridy = 4;
+		add(mailIn, gbc_mailIn);
 		
 		Label label_4 = new Label("Teléfono:");
 		GridBagConstraints gbc_label_4 = new GridBagConstraints();
@@ -112,13 +114,13 @@ public class Registro extends JPanel {
 		gbc_label_4.gridy = 5;
 		add(label_4, gbc_label_4);
 		
-		TextField textField_4 = new TextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 5;
-		add(textField_4, gbc_textField_4);
+		TextField telefonoIn = new TextField();
+		GridBagConstraints gbc_telefonoIn = new GridBagConstraints();
+		gbc_telefonoIn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_telefonoIn.insets = new Insets(0, 0, 5, 5);
+		gbc_telefonoIn.gridx = 2;
+		gbc_telefonoIn.gridy = 5;
+		add(telefonoIn, gbc_telefonoIn);
 		
 		chckbxNewCheckBox = new JCheckBox("Admin");
 		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
@@ -128,6 +130,11 @@ public class Registro extends JPanel {
 		add(chckbxNewCheckBox, gbc_chckbxNewCheckBox);
 		
 		btnNewButton = new JButton("Registrar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CrudOperations.insertarUsuario(null, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+			}
+		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 2;
