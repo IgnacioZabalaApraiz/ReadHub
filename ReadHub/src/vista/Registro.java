@@ -132,7 +132,7 @@ public class Registro extends JPanel {
 		btnNewButton = new JButton("Registrar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CrudOperations.insertarUsuario(null, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+				CrudOperations.insertarUsuario(null, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY);
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
