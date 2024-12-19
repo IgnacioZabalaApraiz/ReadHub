@@ -1,22 +1,18 @@
 package controlador;
 
 import java.awt.EventQueue;
-<<<<<<< HEAD
 import java.sql.*;
 import java.time.LocalDate;
 
 import modelo.ConnectBd;
 import modelo.CrudOperations;
 
-import java.awt.EventQueue;
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
 import vista.Login;
->>>>>>> branch 'newdevelop' of https://github.com/IgnacioZabalaApraiz/ReadHub.git
 import vista.MainPanel;
 import vista.Registro;
 
