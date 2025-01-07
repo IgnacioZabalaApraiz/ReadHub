@@ -23,6 +23,9 @@ public class Registro extends JPanel {
 	private Label label;
 	private JCheckBox isAdmin;
 	private JButton btnNewButton;
+	private JButton btnRegistrar;
+	private JButton btnVolver;
+	
 	
 	
 
@@ -163,19 +166,7 @@ public class Registro extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        lblTitle = new JLabel("Registro en ReadHub");
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblTitle.setForeground(new Color(95, 88, 191)); // #5f58bf
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        add(lblTitle, gbc);
-
-        addField("Nombre:", txtNombre = new JTextField(20), gbc, 1);
-        addField("Apellidos:", txtApellidos = new JTextField(20), gbc, 2);
-        addField("Email:", txtEmail = new JTextField(20), gbc, 3);
-        addField("Teléfono:", txtTelefono = new JTextField(20), gbc, 4);
-        addField("Contraseña:", txtPassword = new JPasswordField(20), gbc, 5);
+        
 
         btnRegistrar = new JButton("Registrar");
         btnRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
