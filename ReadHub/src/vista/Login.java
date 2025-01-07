@@ -1,126 +1,103 @@
 package vista;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class Login extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTextField userIn;
-	private JPasswordField passwordIn;
+    private JLabel lblTitle;
+    private JTextField txtUsuario;
+    private JPasswordField txtPassword;
+    private JButton iniciarBt;
+    private JButton registrarBt;
+    private JButton volverBt;
 
-	/**
-	 * Create the panel.
-	 */
-	public Login() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		JPanel panel_3 = new JPanel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 0;
-		gbc_panel_3.gridy = 0;
-		add(panel_3, gbc_panel_3);
-		
-		JLabel lblNewLabel = new JLabel("LOGIN");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 0;
-		add(lblNewLabel, gbc_lblNewLabel);
-		
-		JPanel panel_5 = new JPanel();
-		GridBagConstraints gbc_panel_5 = new GridBagConstraints();
-		gbc_panel_5.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_5.fill = GridBagConstraints.BOTH;
-		gbc_panel_5.gridx = 2;
-		gbc_panel_5.gridy = 0;
-		add(panel_5, gbc_panel_5);
-		
-		JLabel user65 = new JLabel("Usuario");
-		GridBagConstraints gbc_user65 = new GridBagConstraints();
-		gbc_user65.insets = new Insets(0, 0, 5, 5);
-		gbc_user65.anchor = GridBagConstraints.EAST;
-		gbc_user65.gridx = 0;
-		gbc_user65.gridy = 1;
-		add(user65, gbc_user65);
-		
-		userIn = new JTextField();
-		GridBagConstraints gbc_userIn = new GridBagConstraints();
-		gbc_userIn.insets = new Insets(0, 0, 5, 5);
-		gbc_userIn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_userIn.gridx = 1;
-		gbc_userIn.gridy = 1;
-		add(userIn, gbc_userIn);
-		userIn.setColumns(10);
-		
-		JLabel password = new JLabel("Contraseña");
-		GridBagConstraints gbc_password = new GridBagConstraints();
-		gbc_password.insets = new Insets(0, 0, 5, 5);
-		gbc_password.anchor = GridBagConstraints.EAST;
-		gbc_password.gridx = 0;
-		gbc_password.gridy = 2;
-		add(password, gbc_password);
-		
-		passwordIn = new JPasswordField();
-		GridBagConstraints gbc_passwordIn = new GridBagConstraints();
-		gbc_passwordIn.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordIn.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordIn.gridx = 1;
-		gbc_passwordIn.gridy = 2;
-		add(passwordIn, gbc_passwordIn);
-		
-		JButton iniciarBt = new JButton("INICIAR");
-		GridBagConstraints gbc_iniciarBt = new GridBagConstraints();
-		gbc_iniciarBt.insets = new Insets(0, 0, 5, 5);
-		gbc_iniciarBt.gridx = 0;
-		gbc_iniciarBt.gridy = 3;
-		add(iniciarBt, gbc_iniciarBt);
-		
-		JButton registrarBt = new JButton("REGISTRAR");
-		GridBagConstraints gbc_registrarBt = new GridBagConstraints();
-		gbc_registrarBt.insets = new Insets(0, 0, 5, 0);
-		gbc_registrarBt.gridx = 2;
-		gbc_registrarBt.gridy = 3;
-		add(registrarBt, gbc_registrarBt);
-		
-		JPanel panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 0;
-		gbc_panel_2.gridy = 4;
-		add(panel_2, gbc_panel_2);
-		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 4;
-		add(panel_1, gbc_panel_1);
-		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 4;
-		add(panel, gbc_panel);
+    public Login() {
+        setLayout(new GridBagLayout());
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setBackground(new Color(255, 244, 255)); // #fff4ff
 
-	}
-	
-	
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
+        lblTitle = new JLabel("Iniciar Sesión en ReadHub");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblTitle.setForeground(new Color(95, 88, 191)); // #5f58bf
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(lblTitle, gbc);
+
+        JLabel lblUsuario = new JLabel("Usuario:");
+        lblUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        add(lblUsuario, gbc);
+
+        txtUsuario = new JTextField(20);
+        txtUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        add(txtUsuario, gbc);
+
+        JLabel lblPassword = new JLabel("Contraseña:");
+        lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(lblPassword, gbc);
+
+        txtPassword = new JPasswordField(20);
+        txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        add(txtPassword, gbc);
+
+        iniciarBt = new JButton("Iniciar Sesión");
+        iniciarBt.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        iniciarBt.setForeground(Color.WHITE);
+        iniciarBt.setBackground(new Color(95, 88, 191)); // #5f58bf
+        iniciarBt.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        iniciarBt.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        add(iniciarBt, gbc);
+
+        registrarBt = new JButton("Registrarse");
+        registrarBt.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        registrarBt.setForeground(Color.WHITE);
+        registrarBt.setBackground(new Color(175, 166, 223)); // #afa6df
+        registrarBt.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        registrarBt.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        add(registrarBt, gbc);
+
+        volverBt = new JButton("Volver");
+        volverBt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        volverBt.setForeground(Color.BLACK);
+        volverBt.setBackground(new Color(215, 205, 239)); // #d7cdef
+        volverBt.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        volverBt.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        add(volverBt, gbc);
+    }
+
+    public JButton getIniciarBt() {
+        return iniciarBt;
+    }
+
+    public JButton getRegistrarBt() {
+        return registrarBt;
+    }
+
+    public JButton getVolverBt() {
+        return volverBt;
+    }
 }

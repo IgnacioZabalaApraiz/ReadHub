@@ -11,50 +11,96 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import vista.Login;
 import vista.MainPanel;
 import vista.Registro;
 
 public class Controlador {
-	
-	public static void main(String[] args) {	
-        Connection connection = ConnectBd.getConnection();
-        CrudOperations.insertarLibro(connection, "prueba", "prueba", "prueba", LocalDate.of(2010,2,2),1);
-        CrudOperations.listarLibros(connection);
-        CrudOperations.eliminarLibro(connection, "prueba");
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainPanel ventanaPrincipal = new MainPanel();
-					ventanaPrincipal.setVisible(true);
-					JPanel mainPanel = ventanaPrincipal.getMainPanel();
-					JPanel loginPanel = new Login();
-					
-					ventanaPrincipal.getBtnIniciarSesion().addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							mainPanel.setVisible(false);
-							loginPanel.setVisible(true);
-							mainPanel.add(loginPanel);
-							mainPanel.revalidate();
-							mainPanel.repaint();
-						}
-					});
-					ventanaPrincipal.getBtnRegistrar().addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							mainPanel.removeAll();
-							mainPanel.add(new Registro());
-							mainPanel.revalidate();
-							mainPanel.repaint();
-						}
-					});
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
+    
+    private JFrame mainFrame;
+    private MainPanel mainPanel;
+    private Login loginPanel;
+    private Registro registroPanel;
+    private JPanel cardPanel;
+    private CardLayout cardLayout;
+    
+    public Controlador() {
+        inicializarComponentes();
+        configurarEventos();
+    }
+    
+    private void inicializarComponentes() {
+        mainFrame = new JFrame("ReadHub");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(400, 300);
+        mainFrame.setLocationRelativeTo(null);
+        ImageIcon icono = new ImageIcon("imagenes/book3.png");
+        mainFrame.setIconImage(icono.getImage());
+
+        mainPanel = new MainPanel();
+        loginPanel = new Login();
+        registroPanel = new Registro();
+        
+        cardPanel = new JPanel();
+        cardLayout = new CardLayout();
+        cardPanel.setLayout(cardLayout);
+        
+        cardPanel.add(mainPanel, "main");
+        cardPanel.add(loginPanel, "login");
+        cardPanel.add(registroPanel, "registro");
+        
+        mainFrame.setContentPane(cardPanel);
+        cardLayout.show(cardPanel, "main");
+    }
+    
+    private void configurarEventos() {
+        mainPanel.getIniciarBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("login");
+            }
+        });
+        
+        mainPanel.getRegistrarBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("registro");
+            }
+        });
+        
+        loginPanel.getVolverBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
+        
+        loginPanel.getRegistrarBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("registro");
+            }
+        });
+        
+        registroPanel.getBtnVolver().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
+    }
+    
+    private void mostrarPanel(String panelName) {
+        cardLayout.show(cardPanel, panelName);
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    Controlador controlador = new Controlador();
+                    controlador.mainFrame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }

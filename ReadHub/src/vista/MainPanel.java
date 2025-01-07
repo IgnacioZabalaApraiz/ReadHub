@@ -1,65 +1,60 @@
 package vista;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 
-public class MainPanel extends JFrame {
+public class MainPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JButton btnIniciarSesion, btnRegistrar;
+    private JLabel lblTitle;
+    private JButton iniciarBt;
+    private JButton registrarBt;
 
-	public MainPanel() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
-		setLocationRelativeTo(null);
-		setTitle("ReadHub");
-		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+    public MainPanel() {
+        setLayout(new GridBagLayout());
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setBackground(new Color(255, 244, 255)); // #fff4ff
 
-		btnIniciarSesion = new JButton("Iniciar sesión");
-		GridBagConstraints gbc_btnIniciarSesion = new GridBagConstraints();
-		gbc_btnIniciarSesion.anchor = GridBagConstraints.CENTER;
-		gbc_btnIniciarSesion.insets = new Insets(0, 0, 5, 5);
-		gbc_btnIniciarSesion.gridx = 1;
-		gbc_btnIniciarSesion.gridy = 1;
-		contentPane.add(btnIniciarSesion, gbc_btnIniciarSesion);
-		btnIniciarSesion.setFocusable(false);
-		
-		btnRegistrar = new JButton("Registrarte");
-		GridBagConstraints gbc_btnRegistrar = new GridBagConstraints();
-		gbc_btnRegistrar.anchor = GridBagConstraints.CENTER;
-		gbc_btnRegistrar.insets = new Insets(0, 0, 5, 5);
-		gbc_btnRegistrar.gridx = 2;
-		gbc_btnRegistrar.gridy = 1;
-		contentPane.add(btnRegistrar, gbc_btnRegistrar);
-		btnRegistrar.setFocusable(false);
-		
-	}
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-	public JButton getBtnIniciarSesion() {
-		return btnIniciarSesion;
-	}
+        lblTitle = new JLabel("ReadHub");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        lblTitle.setForeground(new Color(95, 88, 191)); // #5f58bf
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(lblTitle, gbc);
 
-	public JButton getBtnRegistrar() {
-		return btnRegistrar;
-	}
-	
-	public JPanel getMainPanel() {
-		return contentPane;
-	}
+        iniciarBt = new JButton("Iniciar Sesión");
+        iniciarBt.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        iniciarBt.setForeground(Color.WHITE);
+        iniciarBt.setBackground(new Color(95, 88, 191)); // #5f58bf
+        iniciarBt.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        iniciarBt.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        add(iniciarBt, gbc);
 
+        registrarBt = new JButton("Registrarse");
+        registrarBt.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        registrarBt.setForeground(Color.WHITE);
+        registrarBt.setBackground(new Color(175, 166, 223)); // #afa6df
+        registrarBt.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        registrarBt.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        add(registrarBt, gbc);
+    }
+
+    public JButton getIniciarBt() {
+        return iniciarBt;
+    }
+
+    public JButton getRegistrarBt() {
+        return registrarBt;
+    }
 }
