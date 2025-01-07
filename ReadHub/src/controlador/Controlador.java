@@ -29,6 +29,8 @@ public class Controlador {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(400, 300);
         mainFrame.setLocationRelativeTo(null);
+        ImageIcon icono = new ImageIcon("imagenes/book3.png");
+        mainFrame.setIconImage(icono.getImage());
 
         mainPanel = new MainPanel();
         loginPanel = new Login();
