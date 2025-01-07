@@ -1,155 +1,84 @@
 package vista;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.TextField;
-import javax.swing.JCheckBox;
-import javax.swing.JButton;
-import java.awt.Panel;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class Registro extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private Label label;
-	private JCheckBox chckbxNewCheckBox;
-	private JButton btnNewButton;
+    private JLabel lblTitle;
+    private JTextField txtNombre, txtApellidos, txtEmail, txtTelefono;
+    private JPasswordField txtPassword;
+    private JButton btnRegistrar;
+    private JButton btnVolver;
 
-	
-	/**
-	 * Create the panel.
-	 */
-	public Registro() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		setLayout(gridBagLayout);
-		
-		Panel panel = new Panel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		add(panel, gbc_panel);
-		
-		Panel panel_3 = new Panel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_3.gridx = 3;
-		gbc_panel_3.gridy = 0;
-		add(panel_3, gbc_panel_3);
-		
-		label = new Label("DNI:");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 5);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 1;
-		add(label, gbc_label);
-		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		
-		Label label_1 = new Label("Nombre:");
-		GridBagConstraints gbc_label_1 = new GridBagConstraints();
-		gbc_label_1.insets = new Insets(0, 0, 5, 5);
-		gbc_label_1.gridx = 1;
-		gbc_label_1.gridy = 2;
-		add(label_1, gbc_label_1);
-		
-		TextField textField_1 = new TextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
-		
-		Label label_2 = new Label("Apellidos:");
-		GridBagConstraints gbc_label_2 = new GridBagConstraints();
-		gbc_label_2.insets = new Insets(0, 0, 5, 5);
-		gbc_label_2.gridx = 1;
-		gbc_label_2.gridy = 3;
-		add(label_2, gbc_label_2);
-		
-		TextField textField_2 = new TextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 2;
-		gbc_textField_2.gridy = 3;
-		add(textField_2, gbc_textField_2);
-		
-		Label label_3 = new Label("Email:");
-		GridBagConstraints gbc_label_3 = new GridBagConstraints();
-		gbc_label_3.insets = new Insets(0, 0, 5, 5);
-		gbc_label_3.gridx = 1;
-		gbc_label_3.gridy = 4;
-		add(label_3, gbc_label_3);
-		
-		TextField textField_3 = new TextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.gridx = 2;
-		gbc_textField_3.gridy = 4;
-		add(textField_3, gbc_textField_3);
-		
-		Label label_4 = new Label("Teléfono:");
-		GridBagConstraints gbc_label_4 = new GridBagConstraints();
-		gbc_label_4.insets = new Insets(0, 0, 5, 5);
-		gbc_label_4.gridx = 1;
-		gbc_label_4.gridy = 5;
-		add(label_4, gbc_label_4);
-		
-		TextField textField_4 = new TextField();
-		GridBagConstraints gbc_textField_4 = new GridBagConstraints();
-		gbc_textField_4.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_4.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_4.gridx = 2;
-		gbc_textField_4.gridy = 5;
-		add(textField_4, gbc_textField_4);
-		
-		chckbxNewCheckBox = new JCheckBox("Admin");
-		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
-		gbc_chckbxNewCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxNewCheckBox.gridx = 1;
-		gbc_chckbxNewCheckBox.gridy = 6;
-		add(chckbxNewCheckBox, gbc_chckbxNewCheckBox);
-		
-		btnNewButton = new JButton("Registrar");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 6;
-		add(btnNewButton, gbc_btnNewButton);
-		
-		Panel panel_1 = new Panel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.fill = GridBagConstraints.VERTICAL;
-		gbc_panel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 7;
-		add(panel_1, gbc_panel_1);
-		
-		Panel panel_2 = new Panel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.fill = GridBagConstraints.VERTICAL;
-		gbc_panel_2.gridx = 3;
-		gbc_panel_2.gridy = 7;
-		add(panel_2, gbc_panel_2);
+    public Registro() {
+        setLayout(new GridBagLayout());
+        setBorder(new EmptyBorder(20, 20, 20, 20));
+        setBackground(new Color(255, 244, 255)); // #fff4ff
 
-		
-	}
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
+        lblTitle = new JLabel("Registro en ReadHub");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblTitle.setForeground(new Color(95, 88, 191)); // #5f58bf
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(lblTitle, gbc);
+
+        addField("Nombre:", txtNombre = new JTextField(20), gbc, 1);
+        addField("Apellidos:", txtApellidos = new JTextField(20), gbc, 2);
+        addField("Email:", txtEmail = new JTextField(20), gbc, 3);
+        addField("Teléfono:", txtTelefono = new JTextField(20), gbc, 4);
+        addField("Contraseña:", txtPassword = new JPasswordField(20), gbc, 5);
+
+        btnRegistrar = new JButton("Registrar");
+        btnRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setBackground(new Color(95, 88, 191)); // #5f58bf
+        btnRegistrar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        btnRegistrar.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
+        add(btnRegistrar, gbc);
+
+        btnVolver = new JButton("Volver");
+        btnVolver.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        btnVolver.setForeground(Color.BLACK);
+        btnVolver.setBackground(new Color(215, 205, 239)); // #d7cdef
+        btnVolver.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        btnVolver.setFocusPainted(false);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        add(btnVolver, gbc);
+    }
+
+    private void addField(String labelText, JTextField textField, GridBagConstraints gbc, int row) {
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        add(label, gbc);
+
+        textField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        gbc.gridx = 1;
+        gbc.gridy = row;
+        gbc.anchor = GridBagConstraints.WEST;
+        add(textField, gbc);
+    }
+
+    public JButton getBtnRegistrar() {
+        return btnRegistrar;
+    }
+
+    public JButton getBtnVolver() {
+        return btnVolver;
+    }
 }
