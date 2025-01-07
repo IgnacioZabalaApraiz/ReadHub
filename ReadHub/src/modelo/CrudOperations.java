@@ -59,7 +59,7 @@ public class CrudOperations {
 		
 		
 	}
-	public static void insertarUsuario(Connection con,String dni, String nombre,String apellidos,String email,String telefono,String rol) {
+	public static void insertarUsuario(Connection con,String dni, String nombre,String apellidos,String email,String telefono,Boolean admin) {
 		String query = "INSERT INTO usuario(dni,nombre,apellidos,email,telefono,rol) VALUES (?,?,?,?,?,?);";
 		try(PreparedStatement pst = con.prepareStatement(query)) {
 			pst.setString(1, dni);
@@ -67,6 +67,7 @@ public class CrudOperations {
 			pst.setString(3, apellidos);
 			pst.setString(4, email);
 			pst.setString(5, telefono);
+			pst.setBoolean(6, admin);
 			
 			pst.executeUpdate();
 			System.out.println("Usuario añadido");

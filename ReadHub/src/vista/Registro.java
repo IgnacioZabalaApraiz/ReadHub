@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 
+import modelo.ConnectBd;
 import modelo.CrudOperations;
 
 import java.awt.GridBagConstraints;
@@ -20,7 +21,7 @@ public class Registro extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField dniIn;
 	private Label label;
-	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox isAdmin;
 	private JButton btnNewButton;
 	
 	
@@ -122,17 +123,19 @@ public class Registro extends JPanel {
 		gbc_telefonoIn.gridy = 5;
 		add(telefonoIn, gbc_telefonoIn);
 		
-		chckbxNewCheckBox = new JCheckBox("Admin");
-		GridBagConstraints gbc_chckbxNewCheckBox = new GridBagConstraints();
-		gbc_chckbxNewCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxNewCheckBox.gridx = 1;
-		gbc_chckbxNewCheckBox.gridy = 6;
-		add(chckbxNewCheckBox, gbc_chckbxNewCheckBox);
+		isAdmin = new JCheckBox("Admin");
+		GridBagConstraints gbc_isAdmin = new GridBagConstraints();
+		gbc_isAdmin.insets = new Insets(0, 0, 5, 5);
+		gbc_isAdmin.gridx = 1;
+		gbc_isAdmin.gridy = 6;
+		add(isAdmin, gbc_isAdmin);
 		
 		btnNewButton = new JButton("Registrar");
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CrudOperations.insertarUsuario(null, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+			  boolean admin = isAdmin.isSelected();
+			public void actionPerformed (ActionEvent e) {
+				CrudOperations.insertarUsuario(ConnectBd.getConnection(), dniIn.getText(), nombreIn.getText(), apellidosIn.getText(), mailIn.getText(), telefonoIn.getText() ,admin);
+
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
