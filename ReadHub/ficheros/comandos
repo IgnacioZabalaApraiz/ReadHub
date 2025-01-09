@@ -1,0 +1,5 @@
+Hacer un pull de master: 
+	git pull origin master 
+	
+Forzar un pull de master para que se sobreescriban mis cambios (PELIGROSO):
+	
