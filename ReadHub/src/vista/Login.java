@@ -89,6 +89,15 @@ public class Login extends JPanel {
         add(volverBt, gbc);
     }
 
+    // Métodos getters para los campos de texto (agregados)
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public JPasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
     public JButton getIniciarBt() {
         return iniciarBt;
     }
