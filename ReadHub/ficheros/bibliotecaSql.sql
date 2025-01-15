@@ -64,7 +64,7 @@ CREATE TABLE `prestamo` (
   KEY `id_usuario_prestamo_idx` (`id_usuario_prestamo`),
   KEY `id_libro_prestamo_idx` (`id_libro_prestamo`),
   CONSTRAINT `id_libro_prestamo` FOREIGN KEY (`id_libro_prestamo`) REFERENCES `libro` (`id_libro`),
-  CONSTRAINT `id_usuario_prestamo` FOREIGN KEY (`id_usuario_prestamo`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `id_usuario_prestamo` FOREIGN KEY (`id_usuario_prestamo`) REFERENCES `usuarios` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -94,7 +94,7 @@ CREATE TABLE `reserva` (
   KEY `id_libro_reserva_idx` (`id_libro_reserva`),
   KEY `id_usuario_reserva_idx` (`id_usuario_reserva`),
   CONSTRAINT `id_libro_reserva` FOREIGN KEY (`id_libro_reserva`) REFERENCES `libro` (`id_libro`),
-  CONSTRAINT `id_usuario_reserva` FOREIGN KEY (`id_usuario_reserva`) REFERENCES `usuario` (`id_usuario`)
+  CONSTRAINT `id_usuario_reserva` FOREIGN KEY (`id_usuario_reserva`) REFERENCES `usuarios` (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -108,13 +108,13 @@ LOCK TABLES `reserva` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `usuario`
+-- Table structure for table `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuario`;
+DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuario` (
+CREATE TABLE `usuarios` (
   `id_usuario` int NOT NULL AUTO_INCREMENT,
   `dni` varchar(45) NOT NULL,
   `nombre` varchar(45) NOT NULL,
@@ -122,18 +122,19 @@ CREATE TABLE `usuario` (
   `email` varchar(45) NOT NULL,
   `telefono` int NOT NULL,
   `rol` enum('administrador','usuario') NOT NULL,
+  `contrasena` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuario`
+-- Dumping data for table `usuarios`
 --
 
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (11,'12345678A','Juan','Pérez García','juan.perez@example.com',600123456,'administrador'),(12,'87654321B','María','López Fernández','maria.lopez@example.com',600654321,'usuario'),(13,'11223344C','Luis','Gómez Ruiz','luis.gomez@example.com',600987654,'usuario'),(14,'22334455D','Ana','Martínez Sánchez','ana.martinez@example.com',600111222,'usuario'),(15,'33445566E','Carlos','Hernández Díaz','carlos.hernandez@example.com',600333444,'usuario'),(16,'44556677F','Laura','Jiménez Torres','laura.jimenez@example.com',600555666,'usuario'),(17,'55667788G','Sofía','Vargas Romero','sofia.vargas@example.com',600575666,'usuario'),(18,'66778899H','Pedro','Castro González','pedro.castro@example.com',600777888,'usuario'),(19,'77889900I','Elena','Morales Cano','elena.morales@example.com',600999000,'usuario'),(20,'88990011J','Jorge','Reyes Navarro','jorge.reyes@example.com',612555666,'usuario');
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (11,'12345678A','Juan','Pérez García','juan.perez@example.com',600123456,'administrador',NULL),(12,'87654321B','María','López Fernández','maria.lopez@example.com',600654321,'usuario',NULL),(13,'11223344C','Luis','Gómez Ruiz','luis.gomez@example.com',600987654,'usuario',NULL),(14,'22334455D','Ana','Martínez Sánchez','ana.martinez@example.com',600111222,'usuario',NULL),(15,'33445566E','Carlos','Hernández Díaz','carlos.hernandez@example.com',600333444,'usuario',NULL),(16,'44556677F','Laura','Jiménez Torres','laura.jimenez@example.com',600555666,'usuario',NULL),(17,'55667788G','Sofía','Vargas Romero','sofia.vargas@example.com',600575666,'usuario',NULL),(18,'66778899H','Pedro','Castro González','pedro.castro@example.com',600777888,'usuario',NULL),(19,'77889900I','Elena','Morales Cano','elena.morales@example.com',600999000,'usuario',NULL),(20,'88990011J','Jorge','Reyes Navarro','jorge.reyes@example.com',612555666,'usuario',NULL),(21,'holaD','hola','hola','hola',1111111111,'administrador','hola');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -145,4 +146,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-09 11:57:21
+-- Dump completed on 2025-01-15 10:35:30
