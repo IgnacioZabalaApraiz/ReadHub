@@ -32,7 +32,7 @@ public class Controlador {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(700, 500);
         mainFrame.setLocationRelativeTo(null);
-        ImageIcon icono = new ImageIcon("imagenes/book3.png");
+        ImageIcon icono = new ImageIcon("imagenes/bibliotecalogo.png");
         mainFrame.setIconImage(icono.getImage());
 
         mainPanel = new MainPanel();
@@ -84,7 +84,12 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-
+        
+        bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
         // Evento para iniciar sesión
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -115,9 +120,10 @@ public class Controlador {
                 String email = registroPanel.getTxtEmail().getText();
                 String telefono = registroPanel.getTxtTelefono().getText();
                 String contrasena = new String(registroPanel.getTxtPassword().getPassword());
+                String dni =  registroPanel.getTxtDni().getText();
 
                 // Llamar al método de registrarUsuario en el modelo
-                if (usuarioModelo.registrarUsuario(nombre, apellidos, email, telefono, contrasena)) {
+                if (usuarioModelo.registrarUsuario(nombre, apellidos, email, telefono, contrasena, dni)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Usuario registrado exitosamente.",
                             "Registro exitoso",

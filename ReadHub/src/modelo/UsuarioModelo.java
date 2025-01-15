@@ -34,8 +34,8 @@ public class UsuarioModelo {
 
         return false; // Por defecto, las credenciales no son válidas
     }
-    public boolean registrarUsuario(String nombre, String apellidos, String email, String telefono, String contrasena) {
-        String sql = "INSERT INTO usuarios (nombre, apellidos, email, telefono, contrasena) VALUES (?, ?, ?, ?, ?)";
+    public boolean registrarUsuario(String nombre, String apellidos, String email, String telefono, String contrasena, String dni) {
+        String sql = "INSERT INTO usuarios (nombre, apellidos, email, telefono, contrasena, dni) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = connectionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -46,6 +46,7 @@ public class UsuarioModelo {
             ps.setString(3, email);
             ps.setString(4, telefono);
             ps.setString(5, contrasena);
+            ps.setString(6, dni);
 
             // Ejecutar la actualización de la base de datos
             int rowsInserted = ps.executeUpdate();

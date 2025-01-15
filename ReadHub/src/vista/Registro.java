@@ -7,7 +7,7 @@ import java.awt.*;
 public class Registro extends JPanel {
 
     private JLabel lblTitle;
-    private JTextField txtNombre, txtApellidos, txtEmail, txtTelefono;
+    private JTextField txtNombre, txtApellidos, txtEmail, txtTelefono, txtDni;
     private JPasswordField txtPassword;
     private JButton btnRegistrar;
     private JButton btnVolver;
@@ -33,7 +33,8 @@ public class Registro extends JPanel {
         addField("Apellidos:", txtApellidos = new JTextField(20), gbc, 2);
         addField("Email:", txtEmail = new JTextField(20), gbc, 3);
         addField("Teléfono:", txtTelefono = new JTextField(20), gbc, 4);
-        addField("Contraseña:", txtPassword = new JPasswordField(20), gbc, 5);
+        addField("DNI:", txtDni = new JTextField(20), gbc, 5);
+        addField("Contraseña:", txtPassword = new JPasswordField(20), gbc, 6);
 
         btnRegistrar = new JButton("Registrar");
         btnRegistrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -42,7 +43,7 @@ public class Registro extends JPanel {
         btnRegistrar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         btnRegistrar.setFocusPainted(false);
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         gbc.gridwidth = 2;
         add(btnRegistrar, gbc);
 
@@ -53,68 +54,76 @@ public class Registro extends JPanel {
         btnVolver.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         btnVolver.setFocusPainted(false);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         add(btnVolver, gbc);
     }
 
     public JLabel getLblTitle() {
-		return lblTitle;
-	}
+        return lblTitle;
+    }
 
-	public void setLblTitle(JLabel lblTitle) {
-		this.lblTitle = lblTitle;
-	}
+    public void setLblTitle(JLabel lblTitle) {
+        this.lblTitle = lblTitle;
+    }
 
-	public JTextField getTxtNombre() {
-		return txtNombre;
-	}
+    public JTextField getTxtNombre() {
+        return txtNombre;
+    }
 
-	public void setTxtNombre(JTextField txtNombre) {
-		this.txtNombre = txtNombre;
-	}
+    public void setTxtNombre(JTextField txtNombre) {
+        this.txtNombre = txtNombre;
+    }
 
-	public JTextField getTxtApellidos() {
-		return txtApellidos;
-	}
+    public JTextField getTxtApellidos() {
+        return txtApellidos;
+    }
 
-	public void setTxtApellidos(JTextField txtApellidos) {
-		this.txtApellidos = txtApellidos;
-	}
+    public void setTxtApellidos(JTextField txtApellidos) {
+        this.txtApellidos = txtApellidos;
+    }
 
-	public JTextField getTxtEmail() {
-		return txtEmail;
-	}
+    public JTextField getTxtEmail() {
+        return txtEmail;
+    }
 
-	public void setTxtEmail(JTextField txtEmail) {
-		this.txtEmail = txtEmail;
-	}
+    public void setTxtEmail(JTextField txtEmail) {
+        this.txtEmail = txtEmail;
+    }
 
-	public JTextField getTxtTelefono() {
-		return txtTelefono;
-	}
+    public JTextField getTxtTelefono() {
+        return txtTelefono;
+    }
 
-	public void setTxtTelefono(JTextField txtTelefono) {
-		this.txtTelefono = txtTelefono;
-	}
+    public void setTxtTelefono(JTextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
 
-	public JPasswordField getTxtPassword() {
-		return txtPassword;
-	}
+    public JTextField getTxtDni() {
+        return txtDni;
+    }
 
-	public void setTxtPassword(JPasswordField txtPassword) {
-		this.txtPassword = txtPassword;
-	}
+    public void setTxtDni(JTextField txtDni) {
+        this.txtDni = txtDni;
+    }
 
-	public void setBtnRegistrar(JButton btnRegistrar) {
-		this.btnRegistrar = btnRegistrar;
-	}
+    public JPasswordField getTxtPassword() {
+        return txtPassword;
+    }
 
-	public void setBtnVolver(JButton btnVolver) {
-		this.btnVolver = btnVolver;
-	}
+    public void setTxtPassword(JPasswordField txtPassword) {
+        this.txtPassword = txtPassword;
+    }
 
-	private void addField(String labelText, JTextField textField, GridBagConstraints gbc, int row) {
+    public void setBtnRegistrar(JButton btnRegistrar) {
+        this.btnRegistrar = btnRegistrar;
+    }
+
+    public void setBtnVolver(JButton btnVolver) {
+        this.btnVolver = btnVolver;
+    }
+
+    private void addField(String labelText, JTextField textField, GridBagConstraints gbc, int row) {
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         gbc.gridx = 0;

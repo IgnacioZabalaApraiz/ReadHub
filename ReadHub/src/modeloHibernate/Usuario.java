@@ -12,80 +12,100 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private String nombre, apellidos, email;
-	private int dni, telefono;
+    private String nombre;
+    private String apellidos;
+    private String email;
+    private String contrasena;
+    private int dni;
+    private int telefono;
     private Rol rol;
 
     public enum Rol {
         administrador, usuario
     }
-	
-	public Usuario() {
-		
-	}
 
-	public Usuario(String nombre, String apellidos, String email, int dni, int telefono, Rol rol) {
-		super();
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.email = email;
-		this.dni = dni;
-		this.telefono = telefono;
-		this.rol = rol;
-	}
+    public Usuario() {
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public Usuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono, Rol rol) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.contrasena = contrasena;
+        this.email = email;
+        this.dni = dni;
+        this.telefono = telefono;
+        this.rol = rol;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getApellidos() {
-		return apellidos;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getApellidos() {
+        return apellidos;
+    }
 
-	public int getDni() {
-		return dni;
-	}
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-	public void setDni(int dni) {
-		this.dni = dni;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public int getTelefono() {
-		return telefono;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
-	}
+    public String getContrasena() {
+        return contrasena;
+    }
 
-	public Rol getRol() {
-		return rol;
-	}
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
+    public int getDni() {
+        return dni;
+    }
 
-	@Override
-	public String toString() {
-		return "Usuario [nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email + ", dni=" + dni
-				+ ", telefono=" + telefono + ", rol=" + rol + "]";
-	}
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email + ", contrasena=****, dni=" + dni
+                + ", telefono=" + telefono + ", rol=" + rol + "]";
+    }
 }
