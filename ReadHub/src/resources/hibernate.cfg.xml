@@ -18,6 +18,9 @@
 		<property name="hibernate.show_sql">true</property>
 		<!-- Auto actualizaciones en la base de datos -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<mapping class="main.Empleado" />
+		<mapping class="modelo.Libro" />
+		<mapping class="modelo.Prestamo" />
+		<mapping class="modelo.Reserva" />
+		<mapping class="modelo.Usuario" />
 	</session-factory>
 </hibernate-configuration>
