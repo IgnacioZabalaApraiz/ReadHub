@@ -3,24 +3,34 @@
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://hibernate.org/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory>
-		<!-- URL de la base de datos -->
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/biblioteca</property>
-		<!-- Usuario de la base de datos -->
-		<property name="hibernate.connection.username">root</property>
-		<!-- Contraseña de la base de datos -->
-		<property name="hibernate.connection.password">root</property>
-		<!-- Driver JDBC -->
-		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<!-- Dialecto de Hibernate -->
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<!-- Mostrar consultas SQL -->
-		<property name="hibernate.show_sql">true</property>
-		<!-- Auto actualizaciones en la base de datos -->
-		<property name="hibernate.hbm2ddl.auto">update</property>
-		<mapping class="modelo.Libro" />
-		<mapping class="modelo.Prestamo" />
-		<mapping class="modelo.Reserva" />
-		<mapping class="modelo.Usuario" />
-	</session-factory>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/biblioteca</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        
+        <!-- JDBC connection pool settings -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">300</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+        <property name="hibernate.c3p0.idle_test_period">3000</property>
+        
+        <!-- Specify dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        
+        <!-- Echo all executed SQL to stdout -->
+        <property name="hibernate.show_sql">true</property>
+        
+        <!-- Update the database schema on startup -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!-- Names the annotated entity classes -->
+        <mapping class="modeloHibernate.Libro"/>
+        <mapping class="modeloHibernate.Prestamo"/>
+        <mapping class="modeloHibernate.Reserva"/>
+        <mapping class="modeloHibernate.Usuario"/>
+    </session-factory>
 </hibernate-configuration>
+
