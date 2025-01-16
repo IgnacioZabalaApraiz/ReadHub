@@ -5,8 +5,11 @@
  * 
  */
 module ReadHub {
-	requires java.desktop;
-	requires java.sql;
-	requires org.hibernate.orm.core;
-	requires jakarta.persistence;
+    requires java.sql;
+    requires java.desktop;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
+
+    opens modeloHibernate to org.hibernate.orm.core;
+    exports modeloHibernate;
 }

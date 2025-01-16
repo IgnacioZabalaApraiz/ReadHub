@@ -1,10 +1,7 @@
 package modeloHibernate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "libro")
@@ -12,74 +9,103 @@ public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_libro")
+    private Long idLibro;
 
-	private String titulo, autor, genero, fechaPublicacion, urlImagen;
-	private int disponibilidad;
-	
-	public Libro() {
-		
-	}
-	
-	public Libro(String titulo, String autor, String genero, String fechaPublicacion, String urlImagen, int disponibilidad) {
-		this.titulo = titulo;
-		this.autor = autor;
-		this.genero = genero;
-		this.fechaPublicacion = fechaPublicacion;
-		this.urlImagen = urlImagen;
-		this.disponibilidad = disponibilidad;
-	}
+    @Column(nullable = false)
+    private String titulo;
 
-	public String getTitulo() {
-		return titulo;
-	}
+    @Column(nullable = false)
+    private String autor;
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+    @Column(nullable = false)
+    private String genero;
 
-	public String getAutor() {
-		return autor;
-	}
+    @Column(name = "fecha_publicacion", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaPublicacion;
 
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
+    @Column(nullable = false)
+    private boolean disponibilidad;
 
-	public String getGenero() {
-		return genero;
-	}
+    @Column(name = "urlImagen")
+    private String urlImagen;
+    
+    // Default constructor
+    public Libro() {}
+    
+    // Constructor with fields
+    public Libro(String titulo, String autor, String genero, Date fechaPublicacion, boolean disponibilidad, String urlImagen) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.genero = genero;
+        this.fechaPublicacion = fechaPublicacion;
+        this.disponibilidad = disponibilidad;
+        this.urlImagen = urlImagen;
+    }
 
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
+    // Getters and setters
+    public Long getIdLibro() {
+        return idLibro;
+    }
 
-	public String getFechaPublicacion() {
-		return fechaPublicacion;
-	}
+    public void setIdLibro(Long idLibro) {
+        this.idLibro = idLibro;
+    }
 
-	public void setFechaPublicacion(String fechaPublicacion) {
-		this.fechaPublicacion = fechaPublicacion;
-	}
+    public String getTitulo() {
+        return titulo;
+    }
 
-	public String getUrlImagen() {
-		return urlImagen;
-	}
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-	public void setUrlImagen(String urlImagen) {
-		this.urlImagen = urlImagen;
-	}
+    public String getAutor() {
+        return autor;
+    }
 
-	public int getDisponibilidad() {
-		return disponibilidad;
-	}
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
 
-	public void setDisponibilidad(int disponibilidad) {
-		this.disponibilidad = disponibilidad;
-	}
+    public String getGenero() {
+        return genero;
+    }
 
-	@Override
-	public String toString() {
-		return "Libro [titulo=" + titulo + ", autor=" + autor + ", genero=" + genero + ", fechaPublicacion="
-				+ fechaPublicacion + ", urlImagen=" + urlImagen + ", disponibilidad=" + disponibilidad + "]";
-	}
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public Date getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(Date fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
+    }
+
+    public boolean getDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(boolean disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
+
+    @Override
+    public String toString() {
+        return "Libro [idLibro=" + idLibro + ", titulo=" + titulo + ", autor=" + autor + ", genero=" + genero + 
+               ", fechaPublicacion=" + fechaPublicacion + ", disponibilidad=" + disponibilidad + 
+               ", urlImagen=" + urlImagen + "]";
+    }
 }
+

@@ -1,10 +1,7 @@
 package modeloHibernate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "reserva")
@@ -12,57 +9,25 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reserva")
+    private Long idReserva;
 
-	private String fechaReserva, estado;
-	private int idLibroReserva, idUsuarioReserva;
-	
-	public Reserva() {
-		
-	}
+    @ManyToOne
+    @JoinColumn(name = "id_libro_reserva")
+    private Libro libro;
 
-	public Reserva(String fechaReserva, String estado, int idLibroReserva, int idUsuarioReserva) {
-		this.fechaReserva = fechaReserva;
-		this.estado = estado;
-		this.idLibroReserva = idLibroReserva;
-		this.idUsuarioReserva = idUsuarioReserva;
-	}
+    @ManyToOne
+    @JoinColumn(name = "id_usuario_reserva")
+    private Usuario usuario;
 
-	public String getFechaReserva() {
-		return fechaReserva;
-	}
+    @Column(name = "fecha_reserva", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaReserva;
 
-	public void setFechaReserva(String fechaReserva) {
-		this.fechaReserva = fechaReserva;
-	}
+    @Column
+    private boolean estado;
 
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public int getIdLibroReserva() {
-		return idLibroReserva;
-	}
-
-	public void setIdLibroReserva(int idLibroReserva) {
-		this.idLibroReserva = idLibroReserva;
-	}
-
-	public int getIdUsuarioReserva() {
-		return idUsuarioReserva;
-	}
-
-	public void setIdUsuarioReserva(int idUsuarioReserva) {
-		this.idUsuarioReserva = idUsuarioReserva;
-	}
-
-	@Override
-	public String toString() {
-		return "Reserva [fechaReserva=" + fechaReserva + ", estado=" + estado + ", idLibroReserva=" + idLibroReserva
-				+ ", idUsuarioReserva=" + idUsuarioReserva + "]";
-	}
-
+    // Constructors, getters, and setters
+    // ...
 }
+
