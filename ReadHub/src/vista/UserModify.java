@@ -2,7 +2,6 @@ package vista;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import javax.swing.JList;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JButton;

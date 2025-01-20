@@ -40,6 +40,7 @@ public class Usuario {
     // Default constructor
     public Usuario(String nombre2, String apellidos2, String contrasena2, String email2, int dni2, int telefono2, Rol usuario) {}
 
+    // Constructor with fields
 	public Usuario(Long idUsuario, String dni, String nombre, String apellidos, String email, int telefono, Rol rol,
 			String contrasena) {
 		super();
@@ -53,6 +54,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 	}
 
+	// Getters and setters
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
