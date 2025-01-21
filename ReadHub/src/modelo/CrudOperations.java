@@ -53,10 +53,9 @@ public class CrudOperations {
 			pst.executeUpdate();
 			System.out.println("Eiminado correctamente");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		
 		
 	}
 	public static void insertarUsuario(Connection con,String dni, String nombre,String apellidos,String email,String telefono,Boolean admin) {
@@ -72,7 +71,7 @@ public class CrudOperations {
 			pst.executeUpdate();
 			System.out.println("Usuario añadido");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
