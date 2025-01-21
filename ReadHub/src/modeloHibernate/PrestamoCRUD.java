@@ -1,6 +1,6 @@
 package modeloHibernate;
 
-import java.time.LocalDate;
+import java.util.Date;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -11,23 +11,34 @@ public class PrestamoCRUD {
         this.session = session;
     }
 
-    public void prestarLibro(Long idLibro, Long idUsuario, LocalDate fechaPrestamo, LocalDate fechaDevolucion) {
+    public void prestarLibro(Long idLibro, Long idUsuario, Date fechaPrestamo, Date fechaDevolucion) {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
             // Crear un nuevo préstamo
             Prestamo prestamo = new Prestamo();
-            prestamo.setIdLibroPrestamo(idLibro);
-            prestamo.setIdUsuarioPrestamo(idUsuario);
-            prestamo.setFechaPrestamo(fechaPrestamo);
-            prestamo.setFechaDevolucion(fechaDevolucion);
-            prestamo.setMulta(0.0f); // Inicialmente sin multa
 
-            // Guardar el préstamo
-            session.persist(prestamo);
+            // Obtener entidades relacionadas (Libro y Usuario)
+            Libro libro = session.get(Libro.class, idLibro);
+            Usuario usuario = session.get(Usuario.class, idUsuario);
 
-            transaction.commit();
+            if (libro != null && usuario != null) {
+                prestamo.setLibro(libro);
+                prestamo.setUsuario(usuario);
+                prestamo.setFechaPrestamo(fechaPrestamo);
+                prestamo.setFechaDevolucion(fechaDevolucion);
+                prestamo.setMulta(0.0f); // Inicialmente sin multa
+
+                // Guardar el préstamo
+                session.persist(prestamo);
+                transaction.commit();
+            } else {
+                System.out.println("El libro o usuario no existe.");
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+            }
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -36,7 +47,7 @@ public class PrestamoCRUD {
         }
     }
 
-    public void actualizarPrestamo(Long idPrestamo, LocalDate nuevaFechaDevolucion, Float nuevaMulta) {
+    public void actualizarPrestamo(Long idPrestamo, Date nuevaFechaDevolucion, Float nuevaMulta) {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -51,6 +62,9 @@ public class PrestamoCRUD {
                 transaction.commit();
             } else {
                 System.out.println("El préstamo no existe.");
+                if (transaction != null) {
+                    transaction.rollback();
+                }
             }
         } catch (Exception e) {
             if (transaction != null) {
