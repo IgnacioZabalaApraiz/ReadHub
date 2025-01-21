@@ -3,6 +3,7 @@ package vista;
 import javax.imageio.ImageIO;
 import java.net.URL;
 import modeloHibernate.Libro;
+import modeloHibernate.PrestamoCRUD;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
 
@@ -16,6 +17,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 
+import org.hibernate.Session;
+
 
 public class BookManagement extends JPanel {
 
@@ -23,8 +26,10 @@ public class BookManagement extends JPanel {
     private JPanel booksPanel;
     private LibroService libroService;
     private JButton backButton;
+    private Session session;
 
-    public BookManagement() {
+    public BookManagement(Session session) {
+    	this.session = session;
         setLayout(new BorderLayout());
         setBackground(new Color(255, 244, 255)); // color5
 
@@ -227,6 +232,8 @@ public class BookManagement extends JPanel {
                 libroService.updateLibroDisponibilidad(libro);
                 reserveButton.setText(libro.getDisponibilidad() ? "Reservar" : "No Disponible");
                 reserveButton.setBackground(libro.getDisponibilidad() ? new Color(95, 88, 191) : Color.GRAY);
+                var prestamos = new PrestamoCRUD(session);
+                prestamos.prestarLibro(null, null, null, null);
                 showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 showStyledMessage("El libro no está disponible para reserva.", "Error de Reserva", JOptionPane.ERROR_MESSAGE);

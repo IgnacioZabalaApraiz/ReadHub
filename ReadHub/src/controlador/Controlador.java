@@ -28,12 +28,13 @@ public class Controlador {
     private CardLayout cardLayout;
     private UsuariosCRUD usuarioHibernate; // Instancia del modelo para validar usuarios y registrar nuevos
     private SessionFactory sessionFactory;
+    private Session session;
     private LibrosCRUD librosCRUD;
     
     public Controlador() {
     	try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             librosCRUD = new LibrosCRUD(session);
             usuarioHibernate = new UsuariosCRUD(session);
         } catch (Throwable ex) {
@@ -55,7 +56,7 @@ public class Controlador {
         mainPanel = new MainPanel();
         loginPanel = new Login();
         registroPanel = new Registro();
-        bookManagementPanel = new BookManagement(); // Instancia el panel de Book Management
+        bookManagementPanel = new BookManagement(session); // Instancia el panel de Book Management
 
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
