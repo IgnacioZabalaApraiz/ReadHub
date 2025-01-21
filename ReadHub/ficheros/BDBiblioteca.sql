@@ -26,12 +26,13 @@ DROP TABLE IF EXISTS `libro`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `libro` (
   `id_libro` int NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(45) NOT NULL,
-  `autor` varchar(45) NOT NULL,
-  `genero` varchar(45) NOT NULL,
+  `titulo` varchar(255) DEFAULT NULL,
+  `autor` varchar(255) DEFAULT NULL,
+  `genero` varchar(255) DEFAULT NULL,
   `fecha_publicacion` date NOT NULL,
-  `disponibilidad` tinyint NOT NULL,
-  `urlImagen` varchar(500) DEFAULT NULL,
+  `disponibilidad` tinyint NOT NULL DEFAULT '1',
+  `urlImagen` varchar(255) DEFAULT NULL,
+  `fechaPublicacion` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_libro`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,7 +43,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-INSERT INTO `libro` VALUES (1,'Cien años de soledad','Gabriel García Márquez','Novela','1967-06-05',1,'https://images.ctfassets.net/4cd45et68cgf/2Ct3i2g818EuxwPDUFOyl5/82043f6b4636ecb08331b3c34e1e659a/es_mx_cads_main_main_teaser_key_art_-_coronel_vertical_27x40_rgb_pre_1.jpg'),(2,'1984','George Orwell','Distopía','1949-06-08',1,'https://cdn.prod.website-files.com/6034d7d1f3e0f52c50b2adee/6254291caac6d1e42e8986df_62023ceb41cd1c2807b2841a_9788418933011.jpeg'),(3,'Don Quijote de la Mancha','Miguel de Cervantes','Clásico','1605-01-16',0,'https://cdn.slidesharecdn.com/ss_thumbnails/donquijotedelamancha-lecturafacilparaninos-160128204504-thumbnail.jpg?width=640&height=640&fit=bounds'),(4,'El principito','Antoine de Saint-Exupéry','Infantil','1943-04-06',1,'https://m.media-amazon.com/images/I/714Hvb52n-L._AC_UF894,1000_QL80_.jpg'),(5,'Orgullo y prejuicio','Jane Austen','Romántico','1813-01-28',0,'https://pics.filmaffinity.com/Orgullo_y_prejuicio-629327318-large.jpg'),(6,'Crimen y castigo','Fiódor Dostoyevski','Filosófico','1866-01-01',1,'https://cdn.prod.website-files.com/6034d7d1f3e0f52c50b2adee/6254541d8ae4df16d4e69bc8_6034d7d1f3e0f54529b2b1a1_Crimen-y-castigo-fiodor-dostoyevski-editorial-alma.jpeg'),(7,'La sombra del viento','Carlos Ruiz Zafón','Misterio','2001-06-06',1,'https://m.media-amazon.com/images/I/71BS32NFrsL.jpg'),(8,'El nombre de la rosa','Umberto Eco','Histórico','1980-10-01',0,'https://m.media-amazon.com/images/I/71EaXqj6NwL._UF1000,1000_QL80_.jpg'),(9,'Harry Potter y la piedra filosofal','J.K. Rowling','Fantasía','1997-06-26',1,'https://pictures.abebooks.com/isbn/9789500419574-es.jpg'),(10,'Los juegos del hambre','Suzanne Collins','Ciencia Ficción','2008-09-14',1,'https://imagessl0.casadellibro.com/a/l/s5/70/9782266260770.webp');
+INSERT INTO `libro` VALUES (1,'Cien años de soledad','Gabriel García Márquez','Novela','1967-06-05',1,'https://images.ctfassets.net/4cd45et68cgf/2Ct3i2g818EuxwPDUFOyl5/82043f6b4636ecb08331b3c34e1e659a/es_mx_cads_main_main_teaser_key_art_-_coronel_vertical_27x40_rgb_pre_1.jpg',NULL),(2,'1984','George Orwell','Distopía','1949-06-08',0,'https://cdn.prod.website-files.com/6034d7d1f3e0f52c50b2adee/6254291caac6d1e42e8986df_62023ceb41cd1c2807b2841a_9788418933011.jpeg',NULL),(3,'Don Quijote de la Mancha','Miguel de Cervantes','Clásico','1605-01-16',0,'https://cdn.slidesharecdn.com/ss_thumbnails/donquijotedelamancha-lecturafacilparaninos-160128204504-thumbnail.jpg?width=640&height=640&fit=bounds',NULL),(4,'El principito','Antoine de Saint-Exupéry','Infantil','1943-04-06',0,'https://m.media-amazon.com/images/I/714Hvb52n-L._AC_UF894,1000_QL80_.jpg',NULL),(5,'Orgullo y prejuicio','Jane Austen','Romántico','1813-01-28',0,'https://pics.filmaffinity.com/Orgullo_y_prejuicio-629327318-large.jpg',NULL),(6,'Crimen y castigo','Fiódor Dostoyevski','Filosófico','1866-01-01',0,'https://cdn.prod.website-files.com/6034d7d1f3e0f52c50b2adee/6254541d8ae4df16d4e69bc8_6034d7d1f3e0f54529b2b1a1_Crimen-y-castigo-fiodor-dostoyevski-editorial-alma.jpeg',NULL),(7,'La sombra del viento','Carlos Ruiz Zafón','Misterio','2001-06-06',0,'https://m.media-amazon.com/images/I/71BS32NFrsL.jpg',NULL),(8,'El nombre de la rosa','Umberto Eco','Histórico','1980-10-01',0,'https://m.media-amazon.com/images/I/71EaXqj6NwL._UF1000,1000_QL80_.jpg',NULL),(9,'Harry Potter y la piedra filosofal','J.K. Rowling','Fantasía','1997-06-26',0,'https://pictures.abebooks.com/isbn/9789500419574-es.jpg',NULL),(10,'Los juegos del hambre','Suzanne Collins','Ciencia Ficción','2008-09-14',0,'https://imagessl0.casadellibro.com/a/l/s5/70/9782266260770.webp',NULL);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +55,7 @@ DROP TABLE IF EXISTS `prestamo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `prestamo` (
-  `id_prestamo` int NOT NULL AUTO_INCREMENT,
+  `id_prestamo` bigint NOT NULL AUTO_INCREMENT,
   `id_libro_prestamo` int DEFAULT NULL,
   `id_usuario_prestamo` int DEFAULT NULL,
   `fecha_prestamo` date NOT NULL,
@@ -85,11 +86,13 @@ DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reserva` (
-  `id_reserva` int NOT NULL AUTO_INCREMENT,
+  `id_reserva` bigint NOT NULL AUTO_INCREMENT,
   `id_libro_reserva` int DEFAULT NULL,
   `id_usuario_reserva` int DEFAULT NULL,
   `fecha_reserva` date NOT NULL,
-  `estado` tinyint DEFAULT '1',
+  `estado` bit(1) DEFAULT NULL,
+  `idLibroReserva` int NOT NULL,
+  `idUsuarioReserva` int NOT NULL,
   PRIMARY KEY (`id_reserva`),
   KEY `id_libro_reserva_idx` (`id_libro_reserva`),
   KEY `id_usuario_reserva_idx` (`id_usuario_reserva`),
@@ -116,13 +119,13 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
   `id_usuario` int NOT NULL AUTO_INCREMENT,
-  `dni` varchar(45) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `apellidos` varchar(60) NOT NULL,
-  `email` varchar(45) NOT NULL,
+  `dni` varchar(255) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `apellidos` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `telefono` int NOT NULL,
   `rol` enum('administrador','usuario') NOT NULL,
-  `contrasena` varchar(45) DEFAULT NULL,
+  `contrasena` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -146,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-15 10:35:30
+-- Dump completed on 2025-01-21 10:18:18
