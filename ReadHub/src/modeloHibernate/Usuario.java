@@ -17,7 +17,7 @@ public class Usuario {
     private Long idUsuario;
 
     @Column(nullable = false)
-    private String dni;
+    private int dni;
 
     @Column(nullable = false)
     private String nombre;
@@ -43,18 +43,15 @@ public class Usuario {
     }
 
     // Default constructor
-    public Usuario(String nombre2, String apellidos2, String contrasena2, String email2, int dni2, int telefono2, Rol usuario) {}
+    public Usuario() {}
 
-	public Usuario(Long idUsuario, String dni, String nombre, String apellidos, String email, int telefono, Rol rol,
-			String contrasena) {
-		super();
-		this.idUsuario = idUsuario;
+	public Usuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.telefono = telefono;
-		this.rol = rol;
+		this.rol = Rol.usuario;
 		this.contrasena = contrasena;
 	}
 
@@ -66,11 +63,11 @@ public class Usuario {
 		this.idUsuario = idUsuario;
 	}
 
-	public String getDni() {
+	public int getDni() {
 		return dni;
 	}
 
-	public void setDni(String dni) {
+	public void setDni(int dni) {
 		this.dni = dni;
 	}
 

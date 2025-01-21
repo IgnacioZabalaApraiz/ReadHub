@@ -4,11 +4,18 @@ import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import vista.Login;
 import vista.MainPanel;
 import vista.Registro;
 import vista.BookManagement; // Nueva vista para gestionar libros
 import modelo.UsuarioModelo; // Clase donde está el método registrarUsuario
+import modeloHibernate.LibrosCRUD;
+import modeloHibernate.UsuariosCRUD;
 
 public class Controlador {
 
@@ -19,10 +26,20 @@ public class Controlador {
     private BookManagement bookManagementPanel; // Instancia del panel de Book Management
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    private UsuarioModelo usuarioModelo; // Instancia del modelo para validar usuarios y registrar nuevos
-
+    private UsuariosCRUD usuarioHibernate; // Instancia del modelo para validar usuarios y registrar nuevos
+    private SessionFactory sessionFactory;
+    private LibrosCRUD librosCRUD;
+    
     public Controlador() {
-        usuarioModelo = new UsuarioModelo(); // Inicialización del modelo
+    	try {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            librosCRUD = new LibrosCRUD(session);
+            usuarioHibernate = new UsuariosCRUD(session);
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
         inicializarComponentes();
         configurarEventos();
     }
@@ -97,7 +114,7 @@ public class Controlador {
                 String contrasena = new String(loginPanel.getTxtPassword().getPassword()); // Obtener la contraseña
 
                 // Validar las credenciales
-                if (usuarioModelo.validarUsuario(usuario, contrasena)) {
+                if (usuarioHibernate.iniciarSesion(usuario, contrasena)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
@@ -118,12 +135,12 @@ public class Controlador {
                 String nombre = registroPanel.getTxtNombre().getText();
                 String apellidos = registroPanel.getTxtApellidos().getText();
                 String email = registroPanel.getTxtEmail().getText();
-                String telefono = registroPanel.getTxtTelefono().getText();
+                int telefono = Integer.parseInt(registroPanel.getTxtTelefono().getText());
                 String contrasena = new String(registroPanel.getTxtPassword().getPassword());
-                String dni =  registroPanel.getTxtDni().getText();
+                int dni =  Integer.parseInt(registroPanel.getTxtDni().getText());
 
                 // Llamar al método de registrarUsuario en el modelo
-                if (usuarioModelo.registrarUsuario(nombre, apellidos, email, telefono, contrasena, dni)) {
+                if (usuarioHibernate.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Usuario registrado exitosamente.",
                             "Registro exitoso",
