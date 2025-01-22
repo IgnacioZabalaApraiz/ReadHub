@@ -41,17 +41,17 @@ public class UsuariosCRUD {
     }
 
     // Método para iniciar sesión
-    public boolean iniciarSesion(String nombreUsuario, String contrasena) {
+    public Usuario iniciarSesion(String nombreUsuario, String contrasena) {
         try {
             String hql = "FROM Usuario u WHERE u.nombre = :nombreUsuario AND u.contrasena = :contrasena";
             Query<Usuario> query = session.createQuery(hql, Usuario.class);
             query.setParameter("nombreUsuario", nombreUsuario);
             query.setParameter("contrasena", contrasena);
 
-            return query.uniqueResult() != null;
+            return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 }

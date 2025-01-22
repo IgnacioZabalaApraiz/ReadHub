@@ -4,6 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.Date;
+
 import javax.swing.*;
 
 import org.hibernate.Session;
@@ -18,6 +21,7 @@ import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
 import modeloHibernate.Libro;
 import modeloHibernate.PrestamoCRUD;
+import modeloHibernate.Usuario;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
 
@@ -30,18 +34,21 @@ public class Controlador {
     private BookManagement bookManagementPanel;
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    private UsuariosCRUD usuarioHibernate;
+    private UsuariosCRUD usuariosCRUD;
+    private LibrosCRUD librosCRUD;
+    private PrestamoCRUD prestamosCRUD;
     private SessionFactory sessionFactory;
     private Session session;
-    private LibrosCRUD librosCRUD;
     private LibroService libroService;
+    private Usuario usuarioConectado;
     
     public Controlador() {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
             session = sessionFactory.openSession();
             librosCRUD = new LibrosCRUD(session);
-            usuarioHibernate = new UsuariosCRUD(session);
+            usuariosCRUD = new UsuariosCRUD(session);
+            prestamosCRUD = new PrestamoCRUD(session);
             libroService = new LibroServiceImpl();
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
@@ -118,8 +125,8 @@ public class Controlador {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
                 String contrasena = new String(loginPanel.getTxtPassword().getPassword());
-
-                if (usuarioHibernate.iniciarSesion(usuario, contrasena)) {
+                usuarioConectado = usuariosCRUD.iniciarSesion(usuario, contrasena);
+                if (usuarioConectado != null) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
@@ -143,7 +150,7 @@ public class Controlador {
                 String contrasena = new String(registroPanel.getTxtPassword().getPassword());
                 int dni =  Integer.parseInt(registroPanel.getTxtDni().getText());
 
-                if (usuarioHibernate.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
+                if (usuariosCRUD.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Usuario registrado exitosamente.",
                             "Registro exitoso",
@@ -175,8 +182,7 @@ public class Controlador {
         if (libro.getDisponibilidad()) {
             libro.setDisponibilidad(false);
             libroService.updateLibroDisponibilidad(libro);
-            var prestamos = new PrestamoCRUD(session);
-            prestamos.prestarLibro(null, null, null, null);
+            prestamosCRUD.prestarLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
             showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
             bookManagementPanel.updateView();
         } else {

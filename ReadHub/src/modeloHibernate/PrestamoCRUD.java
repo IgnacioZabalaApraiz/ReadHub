@@ -11,7 +11,7 @@ public class PrestamoCRUD {
         this.session = session;
     }
 
-    public void prestarLibro(Long idLibro, Long idUsuario, Date fechaPrestamo, Date fechaDevolucion) {
+    public void prestarLibro(Long idLibro, Long idUsuario, Date fechaPrestamo) {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -27,7 +27,6 @@ public class PrestamoCRUD {
                 prestamo.setLibro(libro);
                 prestamo.setUsuario(usuario);
                 prestamo.setFechaPrestamo(fechaPrestamo);
-                prestamo.setFechaDevolucion(fechaDevolucion);
                 prestamo.setMulta(0.0f); // Inicialmente sin multa
 
                 // Guardar el préstamo
