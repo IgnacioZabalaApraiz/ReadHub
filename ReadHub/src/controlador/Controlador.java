@@ -1,6 +1,7 @@
 package controlador;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -12,10 +13,13 @@ import org.hibernate.cfg.Configuration;
 import vista.Login;
 import vista.MainPanel;
 import vista.Registro;
-import vista.BookManagement; // Nueva vista para gestionar libros
-import modelo.UsuarioModelo; // Clase donde está el método registrarUsuario
+import vista.BookManagement;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
+import modeloHibernate.Libro;
+import modeloHibernate.PrestamoCRUD;
+import servicio.LibroService;
+import servicio.LibroServiceImpl;
 
 public class Controlador {
 
@@ -23,20 +27,22 @@ public class Controlador {
     private MainPanel mainPanel;
     private Login loginPanel;
     private Registro registroPanel;
-    private BookManagement bookManagementPanel; // Instancia del panel de Book Management
+    private BookManagement bookManagementPanel;
     private JPanel cardPanel;
     private CardLayout cardLayout;
-    private UsuariosCRUD usuarioHibernate; // Instancia del modelo para validar usuarios y registrar nuevos
+    private UsuariosCRUD usuarioHibernate;
     private SessionFactory sessionFactory;
     private Session session;
     private LibrosCRUD librosCRUD;
+    private LibroService libroService;
     
     public Controlador() {
-    	try {
+        try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
             session = sessionFactory.openSession();
             librosCRUD = new LibrosCRUD(session);
             usuarioHibernate = new UsuariosCRUD(session);
+            libroService = new LibroServiceImpl();
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
@@ -56,17 +62,16 @@ public class Controlador {
         mainPanel = new MainPanel();
         loginPanel = new Login();
         registroPanel = new Registro();
-        bookManagementPanel = new BookManagement(session); // Instancia el panel de Book Management
+        bookManagementPanel = new BookManagement(session);
 
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
 
-        // Añadir todos los paneles
         cardPanel.add(mainPanel, "main");
         cardPanel.add(loginPanel, "login");
         cardPanel.add(registroPanel, "registro");
-        cardPanel.add(bookManagementPanel, "bookManagement"); // Añadir el panel de Book Management
+        cardPanel.add(bookManagementPanel, "bookManagement");
 
         mainFrame.setContentPane(cardPanel);
         cardLayout.show(cardPanel, "main");
@@ -108,19 +113,18 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-        // Evento para iniciar sesión
+
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String usuario = loginPanel.getTxtUsuario().getText(); // Obtener el email
-                String contrasena = new String(loginPanel.getTxtPassword().getPassword()); // Obtener la contraseña
+                String usuario = loginPanel.getTxtUsuario().getText();
+                String contrasena = new String(loginPanel.getTxtPassword().getPassword());
 
-                // Validar las credenciales
                 if (usuarioHibernate.iniciarSesion(usuario, contrasena)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
-                    mostrarPanel("bookManagement"); // Mostrar el panel de Book Management
+                    mostrarPanel("bookManagement");
                 } else {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Credenciales incorrectas. Intente de nuevo.",
@@ -130,7 +134,6 @@ public class Controlador {
             }
         });
 
-        // Evento para registrar usuario en la base de datos
         registroPanel.getBtnRegistrar().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String nombre = registroPanel.getTxtNombre().getText();
@@ -140,13 +143,12 @@ public class Controlador {
                 String contrasena = new String(registroPanel.getTxtPassword().getPassword());
                 int dni =  Integer.parseInt(registroPanel.getTxtDni().getText());
 
-                // Llamar al método de registrarUsuario en el modelo
                 if (usuarioHibernate.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Usuario registrado exitosamente.",
                             "Registro exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
-                    mostrarPanel("login"); // Volver al panel de login después del registro
+                    mostrarPanel("login");
                 } else {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Error al registrar usuario. Intente de nuevo.",
@@ -155,10 +157,38 @@ public class Controlador {
                 }
             }
         });
+
+        bookManagementPanel.setReserveBookListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Libro libro = (Libro) e.getSource();
+                reserveBook(libro);
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
         cardLayout.show(cardPanel, panelName);
+    }
+
+    private void reserveBook(Libro libro) {
+        if (libro.getDisponibilidad()) {
+            libro.setDisponibilidad(false);
+            libroService.updateLibroDisponibilidad(libro);
+            var prestamos = new PrestamoCRUD(session);
+            prestamos.prestarLibro(null, null, null, null);
+            showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            bookManagementPanel.updateView();
+        } else {
+            showStyledMessage("El libro no está disponible para reserva.", "Error de Reserva", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void showStyledMessage(String message, String title, int messageType) {
+        UIManager.put("OptionPane.background", new Color(255, 244, 255));
+        UIManager.put("Panel.background", new Color(255, 244, 255));
+        UIManager.put("OptionPane.messageForeground", new Color(95, 88, 191));
+        JOptionPane.showMessageDialog(mainFrame, message, title, messageType);
     }
 
     public static void main(String[] args) {
@@ -174,3 +204,4 @@ public class Controlador {
         });
     }
 }
+
