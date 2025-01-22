@@ -3,6 +3,8 @@ package vista;
 import javax.imageio.ImageIO;
 import java.net.URL;
 import modeloHibernate.Libro;
+import modeloHibernate.Usuario;
+import modeloHibernate.PrestamoCRUD;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
 
@@ -25,9 +27,15 @@ public class BookManagement extends JPanel {
     private JButton backButton;
     private Session session;
     private ActionListener reserveBookListener;
+    private Usuario usuarioConectado;
 
     public BookManagement(Session session) {
+        this(session, null);
+    }
+
+    public BookManagement(Session session, Usuario usuarioConectado) {
         this.session = session;
+        this.usuarioConectado = usuarioConectado;
         setLayout(new BorderLayout());
         setBackground(new Color(255, 244, 255));
 
@@ -41,7 +49,6 @@ public class BookManagement extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         displayBooks();
-        updateView();
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(255, 244, 255));
@@ -100,6 +107,19 @@ public class BookManagement extends JPanel {
                 updateView();
             }
         };
+    }
+
+    public void setUsuarioConectado(Usuario usuarioConectado) {
+        this.usuarioConectado = usuarioConectado;
+        updateView();
+    }
+
+    private boolean isBookBorrowedByUser(Libro libro) {
+        if (usuarioConectado == null || libro == null) {
+            return false;
+        }
+        PrestamoCRUD prestamoCRUD = new PrestamoCRUD(session);
+        return prestamoCRUD.isBookBorrowedByUser(libro.getIdLibro(), usuarioConectado.getIdUsuario());
     }
 
     private class BookCard extends JPanel {
@@ -197,8 +217,7 @@ public class BookManagement extends JPanel {
             availabilityLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
             availabilityLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            reserveButton = createStyledButton(libro.getDisponibilidad() ? "Reservar" : "No Disponible",
-                    libro.getDisponibilidad() ? new Color(95, 88, 191) : Color.GRAY);
+            reserveButton = createStyledButton("Reservar", new Color(95, 88, 191));
             reserveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             reserveButton.addActionListener(new ActionListener() {
                 @Override
@@ -220,6 +239,25 @@ public class BookManagement extends JPanel {
             infoPanel.add(reserveButton);
 
             add(infoPanel, BorderLayout.SOUTH);
+
+            updateButtonState();
+        }
+
+        private void updateButtonState() {
+            boolean isBookBorrowedByUser = isBookBorrowedByUser(libro);
+            if (libro.getDisponibilidad()) {
+                reserveButton.setText("Reservar");
+                reserveButton.setBackground(new Color(95, 88, 191));
+                reserveButton.setEnabled(usuarioConectado != null);
+            } else if (isBookBorrowedByUser) {
+                reserveButton.setText("Devolver");
+                reserveButton.setBackground(new Color(0, 150, 136));
+                reserveButton.setEnabled(true);
+            } else {
+                reserveButton.setText("No Disponible");
+                reserveButton.setBackground(Color.GRAY);
+                reserveButton.setEnabled(false);
+            }
         }
 
         private void reserveBook() {
@@ -265,4 +303,3 @@ public class BookManagement extends JPanel {
         booksPanel.repaint();
     }
 }
-

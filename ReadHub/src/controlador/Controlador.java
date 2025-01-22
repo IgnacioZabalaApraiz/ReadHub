@@ -4,9 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.Date;
-
 import javax.swing.*;
 
 import org.hibernate.Session;
@@ -35,12 +33,12 @@ public class Controlador {
     private JPanel cardPanel;
     private CardLayout cardLayout;
     private UsuariosCRUD usuariosCRUD;
-    private LibrosCRUD librosCRUD;
-    private PrestamoCRUD prestamosCRUD;
     private SessionFactory sessionFactory;
     private Session session;
+    private LibrosCRUD librosCRUD;
     private LibroService libroService;
     private Usuario usuarioConectado;
+    private PrestamoCRUD prestamosCRUD;
     
     public Controlador() {
         try {
@@ -125,12 +123,14 @@ public class Controlador {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
                 String contrasena = new String(loginPanel.getTxtPassword().getPassword());
+
                 usuarioConectado = usuariosCRUD.iniciarSesion(usuario, contrasena);
                 if (usuarioConectado != null) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    bookManagementPanel.setUsuarioConectado(usuarioConectado);
                     mostrarPanel("bookManagement");
                 } else {
                     JOptionPane.showMessageDialog(mainFrame,
@@ -148,7 +148,7 @@ public class Controlador {
                 String email = registroPanel.getTxtEmail().getText();
                 int telefono = Integer.parseInt(registroPanel.getTxtTelefono().getText());
                 String contrasena = new String(registroPanel.getTxtPassword().getPassword());
-                int dni =  Integer.parseInt(registroPanel.getTxtDni().getText());
+                int dni = Integer.parseInt(registroPanel.getTxtDni().getText());
 
                 if (usuariosCRUD.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
                     JOptionPane.showMessageDialog(mainFrame,
@@ -184,10 +184,13 @@ public class Controlador {
             libroService.updateLibroDisponibilidad(libro);
             prestamosCRUD.prestarLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
             showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
-            bookManagementPanel.updateView();
         } else {
-            showStyledMessage("El libro no está disponible para reserva.", "Error de Reserva", JOptionPane.ERROR_MESSAGE);
+            libro.setDisponibilidad(true);
+            libroService.updateLibroDisponibilidad(libro);
+            prestamosCRUD.devolverLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
+            showStyledMessage("Has devuelto el libro: " + libro.getTitulo(), "Devolución Exitosa", JOptionPane.INFORMATION_MESSAGE);
         }
+        bookManagementPanel.updateView();
     }
 
     private void showStyledMessage(String message, String title, int messageType) {
@@ -210,4 +213,3 @@ public class Controlador {
         });
     }
 }
-
