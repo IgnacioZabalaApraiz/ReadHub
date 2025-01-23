@@ -184,6 +184,15 @@ ORDER BY
     </data-sets>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <text id="30">
+                    <property name="fontSize">18pt</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="textAlign">center</property>
+                    <property name="contentType">auto</property>
+                    <text-property name="content"><![CDATA[Libros más populares]]></text-property>
+                </text>
+            </page-header>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
