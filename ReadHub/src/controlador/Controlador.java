@@ -4,16 +4,20 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import javax.swing.*;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import vista.Login;
 import vista.MainPanel;
 import vista.Registro;
+import vista.AdminPanel;
 import vista.BookManagement;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
@@ -22,6 +26,7 @@ import modeloHibernate.PrestamoCRUD;
 import modeloHibernate.Usuario;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
+import servicio.HibernateUtil;
 
 public class Controlador {
 
@@ -39,13 +44,14 @@ public class Controlador {
     private LibroService libroService;
     private Usuario usuarioConectado;
     private PrestamoCRUD prestamosCRUD;
+    private AdminPanel adminPanel;
 
     public Controlador() {
         try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-            session = sessionFactory.openSession();
+            session = HibernateUtil.getSession();
+            session.beginTransaction(); 
             librosCRUD = new LibrosCRUD(session);
-            usuariosCRUD = new UsuariosCRUD(session);
+            usuariosCRUD = new UsuariosCRUD();
             prestamosCRUD = new PrestamoCRUD(session);
             libroService = new LibroServiceImpl();
         } catch (Throwable ex) {
@@ -59,7 +65,7 @@ public class Controlador {
     private void inicializarComponentes() {
         mainFrame = new JFrame("ReadHub");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(700, 500);
+        mainFrame.setSize(900, 600);
         mainFrame.setLocationRelativeTo(null);
         ImageIcon icono = new ImageIcon("imagenes/bibliotecalogo.png");
         mainFrame.setIconImage(icono.getImage());
@@ -68,6 +74,7 @@ public class Controlador {
         loginPanel = new Login();
         registroPanel = new Registro();
         bookManagementPanel = new BookManagement(session);
+        adminPanel = new AdminPanel();
 
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -77,6 +84,7 @@ public class Controlador {
         cardPanel.add(loginPanel, "login");
         cardPanel.add(registroPanel, "registro");
         cardPanel.add(bookManagementPanel, "bookManagement");
+        cardPanel.add(adminPanel, "adminPanel");
 
         mainFrame.setContentPane(cardPanel);
         cardLayout.show(cardPanel, "main");
@@ -118,6 +126,7 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
+        //esto 
 
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -125,13 +134,19 @@ public class Controlador {
                 String contrasena = new String(loginPanel.getTxtPassword().getPassword());
 
                 usuarioConectado = usuariosCRUD.iniciarSesion(usuario, contrasena);
+
                 if (usuarioConectado != null) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
-                    bookManagementPanel.setUsuarioConectado(usuarioConectado);
-                    mostrarPanel("bookManagement");
+
+                    if (usuarioConectado.getRol() == Usuario.Rol.administrador) {
+                        mostrarPanel("adminPanel");
+                    } else {
+                        bookManagementPanel.setUsuarioConectado(usuarioConectado);
+                        mostrarPanel("bookManagement");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Credenciales incorrectas. Intente de nuevo.",
@@ -165,26 +180,48 @@ public class Controlador {
             }
         });
 
-        
-    }
-
-    // Nuevo: Método para modificar un libro
-    private void modificarLibro(Libro libro) {
-        // Implementación para editar libro
-    }
-
-    // Nuevo: Método para eliminar un libro
-    private void eliminarLibro(Libro libro) {
-        // Implementación para borrar libro
-    }
-
-    // Nuevo: Método para añadir un libro
-    private void añadirLibro() {
-        // Implementación para agregar libro
+        bookManagementPanel.setReserveBookListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Libro libro = (Libro) e.getSource();
+                reserveBook(libro);
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
         cardLayout.show(cardPanel, panelName);
+    }
+
+    private void reserveBook(Libro libro) {
+        if (libro.getDisponibilidad()) {
+            libro.setDisponibilidad(false);
+            libroService.updateLibroDisponibilidad(libro);
+            prestamosCRUD.prestarLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
+            showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            libro.setDisponibilidad(true);
+            libroService.updateLibroDisponibilidad(libro);
+            prestamosCRUD.devolverLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
+            showStyledMessage("Has devuelto el libro: " + libro.getTitulo(), "Devolución Exitosa", JOptionPane.INFORMATION_MESSAGE);
+        }
+        bookManagementPanel.updateView();
+    }
+
+    private void showStyledMessage(String message, String title, int messageType) {
+        UIManager.put("OptionPane.background", new Color(255, 244, 255));
+        UIManager.put("Panel.background", new Color(255, 244, 255));
+        UIManager.put("OptionPane.messageForeground", new Color(95, 88, 191));
+        JOptionPane.showMessageDialog(mainFrame, message, title, messageType);
+    }
+
+    private void closeResources() {
+        if (session != null && session.isOpen()) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().commit();
+            }
+            HibernateUtil.closeSession();
+        }
     }
 
     public static void main(String[] args) {
@@ -193,6 +230,13 @@ public class Controlador {
                 try {
                     Controlador controlador = new Controlador();
                     controlador.mainFrame.setVisible(true);
+                    controlador.mainFrame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            controlador.closeResources();
+                            HibernateUtil.closeSessionFactory();
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
