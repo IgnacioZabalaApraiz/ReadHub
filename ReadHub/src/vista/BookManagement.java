@@ -33,6 +33,10 @@ public class BookManagement extends JPanel {
         this(session, null);
     }
 
+    /**
+     * @wbp.parser.constructor
+     */
+    //manejar los libros
     public BookManagement(Session session, Usuario usuarioConectado) {
         this.session = session;
         this.usuarioConectado = usuarioConectado;

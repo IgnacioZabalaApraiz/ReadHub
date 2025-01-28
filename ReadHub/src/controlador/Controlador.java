@@ -9,11 +9,13 @@ import javax.swing.*;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import vista.Login;
 import vista.MainPanel;
 import vista.Registro;
+import vista.AdminPanel;
 import vista.BookManagement;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
@@ -39,11 +41,13 @@ public class Controlador {
     private LibroService libroService;
     private Usuario usuarioConectado;
     private PrestamoCRUD prestamosCRUD;
-    
+    private AdminPanel adminPanel;
+
     public Controlador() {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession(); // Usamos getCurrentSession()
+            session.beginTransaction(); // Iniciamos la transacción aquí
             librosCRUD = new LibrosCRUD(session);
             usuariosCRUD = new UsuariosCRUD(session);
             prestamosCRUD = new PrestamoCRUD(session);
@@ -68,6 +72,7 @@ public class Controlador {
         loginPanel = new Login();
         registroPanel = new Registro();
         bookManagementPanel = new BookManagement(session);
+        adminPanel = new AdminPanel();
 
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -77,6 +82,7 @@ public class Controlador {
         cardPanel.add(loginPanel, "login");
         cardPanel.add(registroPanel, "registro");
         cardPanel.add(bookManagementPanel, "bookManagement");
+        cardPanel.add(adminPanel, "adminPanel");
 
         mainFrame.setContentPane(cardPanel);
         cardLayout.show(cardPanel, "main");
@@ -112,12 +118,13 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-        
+
         bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("main");
             }
         });
+        //esto 
 
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -125,13 +132,19 @@ public class Controlador {
                 String contrasena = new String(loginPanel.getTxtPassword().getPassword());
 
                 usuarioConectado = usuariosCRUD.iniciarSesion(usuario, contrasena);
+
                 if (usuarioConectado != null) {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Inicio de sesión exitoso.",
                             "Login exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
-                    bookManagementPanel.setUsuarioConectado(usuarioConectado);
-                    mostrarPanel("bookManagement");
+
+                    if (usuarioConectado.getRol() == Usuario.Rol.administrador) {
+                        mostrarPanel("adminPanel");
+                    } else {
+                        bookManagementPanel.setUsuarioConectado(usuarioConectado);
+                        mostrarPanel("bookManagement");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(mainFrame,
                             "Credenciales incorrectas. Intente de nuevo.",
