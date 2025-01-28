@@ -14,8 +14,10 @@ import org.hibernate.cfg.Configuration;
 
 import vista.Login;
 import vista.MainPanel;
+import vista.PanelInformes;
 import vista.Registro;
 import vista.AdminPanel;
+import vista.AdminSelection;
 import vista.BookManagement;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
@@ -42,6 +44,8 @@ public class Controlador {
     private Usuario usuarioConectado;
     private PrestamoCRUD prestamosCRUD;
     private AdminPanel adminPanel;
+    private AdminSelection adminSelection;
+    private PanelInformes panelInformes;
 
     public Controlador() {
         try {
@@ -52,6 +56,8 @@ public class Controlador {
             usuariosCRUD = new UsuariosCRUD(session);
             prestamosCRUD = new PrestamoCRUD(session);
             libroService = new LibroServiceImpl();
+            adminSelection = new AdminSelection();
+            panelInformes = new PanelInformes();
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
@@ -73,7 +79,9 @@ public class Controlador {
         registroPanel = new Registro();
         bookManagementPanel = new BookManagement(session);
         adminPanel = new AdminPanel();
-
+        adminSelection = new AdminSelection();
+        panelInformes = new PanelInformes();
+        
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
         cardPanel.setLayout(cardLayout);
@@ -83,6 +91,8 @@ public class Controlador {
         cardPanel.add(registroPanel, "registro");
         cardPanel.add(bookManagementPanel, "bookManagement");
         cardPanel.add(adminPanel, "adminPanel");
+        cardPanel.add(adminSelection, "adminSelection");
+        cardPanel.add(panelInformes, "panelInformes");
 
         mainFrame.setContentPane(cardPanel);
         cardLayout.show(cardPanel, "main");
@@ -124,8 +134,13 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-        //esto 
-
+    	adminSelection.getInformesBt().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarPanel("panelInformes");
+			}
+		});
+	
+        
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
@@ -140,7 +155,7 @@ public class Controlador {
                             JOptionPane.INFORMATION_MESSAGE);
 
                     if (usuarioConectado.getRol() == Usuario.Rol.administrador) {
-                        mostrarPanel("adminPanel");
+                        mostrarPanel("adminSelection");
                     } else {
                         bookManagementPanel.setUsuarioConectado(usuarioConectado);
                         mostrarPanel("bookManagement");
@@ -153,6 +168,7 @@ public class Controlador {
                 }
             }
         });
+ 
 
         registroPanel.getBtnRegistrar().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
