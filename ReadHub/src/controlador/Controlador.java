@@ -39,7 +39,7 @@ public class Controlador {
     private LibroService libroService;
     private Usuario usuarioConectado;
     private PrestamoCRUD prestamosCRUD;
-    
+
     public Controlador() {
         try {
             sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -112,7 +112,7 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-        
+
         bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("main");
@@ -165,39 +165,26 @@ public class Controlador {
             }
         });
 
-        bookManagementPanel.setReserveBookListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Libro libro = (Libro) e.getSource();
-                reserveBook(libro);
-            }
-        });
+        
+    }
+
+    // Nuevo: Método para modificar un libro
+    private void modificarLibro(Libro libro) {
+        // Implementación para editar libro
+    }
+
+    // Nuevo: Método para eliminar un libro
+    private void eliminarLibro(Libro libro) {
+        // Implementación para borrar libro
+    }
+
+    // Nuevo: Método para añadir un libro
+    private void añadirLibro() {
+        // Implementación para agregar libro
     }
 
     private void mostrarPanel(String panelName) {
         cardLayout.show(cardPanel, panelName);
-    }
-
-    private void reserveBook(Libro libro) {
-        if (libro.getDisponibilidad()) {
-            libro.setDisponibilidad(false);
-            libroService.updateLibroDisponibilidad(libro);
-            prestamosCRUD.prestarLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
-            showStyledMessage("Has reservado el libro: " + libro.getTitulo(), "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            libro.setDisponibilidad(true);
-            libroService.updateLibroDisponibilidad(libro);
-            prestamosCRUD.devolverLibro(libro.getIdLibro(), usuarioConectado.getIdUsuario(), new Date());
-            showStyledMessage("Has devuelto el libro: " + libro.getTitulo(), "Devolución Exitosa", JOptionPane.INFORMATION_MESSAGE);
-        }
-        bookManagementPanel.updateView();
-    }
-
-    private void showStyledMessage(String message, String title, int messageType) {
-        UIManager.put("OptionPane.background", new Color(255, 244, 255));
-        UIManager.put("Panel.background", new Color(255, 244, 255));
-        UIManager.put("OptionPane.messageForeground", new Color(95, 88, 191));
-        JOptionPane.showMessageDialog(mainFrame, message, title, messageType);
     }
 
     public static void main(String[] args) {
