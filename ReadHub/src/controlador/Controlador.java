@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import javax.swing.*;
 
@@ -24,6 +26,7 @@ import modeloHibernate.PrestamoCRUD;
 import modeloHibernate.Usuario;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
+import servicio.HibernateUtil;
 
 public class Controlador {
 
@@ -45,11 +48,10 @@ public class Controlador {
 
     public Controlador() {
         try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-            session = sessionFactory.getCurrentSession(); // Usamos getCurrentSession()
-            session.beginTransaction(); // Iniciamos la transacción aquí
+            session = HibernateUtil.getSession();
+            session.beginTransaction(); 
             librosCRUD = new LibrosCRUD(session);
-            usuariosCRUD = new UsuariosCRUD(session);
+            usuariosCRUD = new UsuariosCRUD();
             prestamosCRUD = new PrestamoCRUD(session);
             libroService = new LibroServiceImpl();
         } catch (Throwable ex) {
@@ -63,7 +65,7 @@ public class Controlador {
     private void inicializarComponentes() {
         mainFrame = new JFrame("ReadHub");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(700, 500);
+        mainFrame.setSize(900, 600);
         mainFrame.setLocationRelativeTo(null);
         ImageIcon icono = new ImageIcon("imagenes/bibliotecalogo.png");
         mainFrame.setIconImage(icono.getImage());
@@ -213,12 +215,28 @@ public class Controlador {
         JOptionPane.showMessageDialog(mainFrame, message, title, messageType);
     }
 
+    private void closeResources() {
+        if (session != null && session.isOpen()) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().commit();
+            }
+            HibernateUtil.closeSession();
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     Controlador controlador = new Controlador();
                     controlador.mainFrame.setVisible(true);
+                    controlador.mainFrame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            controlador.closeResources();
+                            HibernateUtil.closeSessionFactory();
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -226,3 +244,4 @@ public class Controlador {
         });
     }
 }
+
