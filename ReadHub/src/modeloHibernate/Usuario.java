@@ -6,17 +6,12 @@ import jakarta.persistence.*;
 @Table(name = "usuarios")
 public class Usuario {
 
-    public Usuario(String nombre2, String apellidos2, String contrasena2, String email2, int dni2, int telefono2,
-			Rol usuario) {
-
-	}
-
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long idUsuario;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private int dni;
 
     @Column(nullable = false)
@@ -25,7 +20,7 @@ public class Usuario {
     @Column(nullable = false)
     private String apellidos;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -35,95 +30,108 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
 
-    @Column
+    @Column(nullable = false)
     private String contrasena;
 
     public enum Rol {
         administrador, usuario
     }
 
-    // Default constructor
+    // Constructor vacío para JPA
     public Usuario() {}
 
-	public Usuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono) {
-		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.email = email;
-		this.telefono = telefono;
-		this.rol = Rol.usuario;
-		this.contrasena = contrasena;
-	}
+    // Constructor general
+    public Usuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.rol = Rol.usuario; // Por defecto como usuario
+        this.contrasena = contrasena;
+    }
 
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
+    // Constructor adicional con Rol especificado
+    public Usuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono, Rol rol) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.rol = rol;
+        this.contrasena = contrasena;
+    }
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+    // Getters y setters ddos los atributos
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
 
-	public int getDni() {
-		return dni;
-	}
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
-	public void setDni(int dni) {
-		this.dni = dni;
-	}
+    public int getDni() {
+        return dni;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public String getApellidos() {
-		return apellidos;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
+    public String getApellidos() {
+        return apellidos;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public int getTelefono() {
-		return telefono;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
-	}
+    public int getTelefono() {
+        return telefono;
+    }
 
-	public Rol getRol() {
-		return rol;
-	}
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
 
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
+    public Rol getRol() {
+        return rol;
+    }
 
-	public String getContrasena() {
-		return contrasena;
-	}
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
+    public String getContrasena() {
+        return contrasena;
+    }
 
-	@Override
-	public String toString() {
-		return "Usuario [idUsuario=" + idUsuario + ", dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos
-				+ ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + ", contrasena=" + contrasena + "]";
-	}
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
+    // Método toString (útil para depuración)
+    @Override
+    public String toString() {
+        return "Usuario [idUsuario=" + idUsuario + ", dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos
+                + ", email=" + email + ", telefono=" + telefono + ", rol=" + rol + ", contrasena=" + contrasena + "]";
+    }
 }
 
