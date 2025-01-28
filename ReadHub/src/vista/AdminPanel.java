@@ -22,7 +22,10 @@ public class AdminPanel extends JPanel {
         
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
+<<<<<<< HEAD
 //setPreferredSize(new Dimension(600, 400)
+=======
+>>>>>>> d53176535bf986229be4e3aef9f3f26aa82bc470
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         

@@ -8,26 +8,40 @@ import modeloHibernate.Usuario;
 
 public class HibernateUtil {
 
-    private static SessionFactory sessionFactory;
+    private static final SessionFactory sessionFactory;
+    private static final ThreadLocal<Session> threadLocal = new ThreadLocal<>();
 
-    // Configura Hibernate
     static {
         try {
             sessionFactory = new Configuration().configure("hibernate.cfg.xml")
-                                                 .addAnnotatedClass(Usuario.class)  // Agregar tu clase de modelo
+                                                 .addAnnotatedClass(Usuario.class)
                                                  .buildSessionFactory();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ExceptionInInitializerError(e);
         }
     }
 
-    // Obtiene la sesión actual
     public static Session getSession() {
-        return sessionFactory.getCurrentSession();
+        Session session = threadLocal.get();
+        if (session == null || !session.isOpen()) {
+            session = sessionFactory.openSession();
+            threadLocal.set(session);
+        }
+        return session;
     }
 
-    // Cierra la sesión f
-    public static void close() {
-        sessionFactory.close();
+    public static void closeSession() {
+        Session session = threadLocal.get();
+        if (session != null && session.isOpen()) {
+            session.close();
+        }
+        threadLocal.remove();
+    }
+
+    public static void closeSessionFactory() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
     }
 }
+
