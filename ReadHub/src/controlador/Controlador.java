@@ -223,7 +223,7 @@ public class Controlador {
         
         panelInformes.getBtnVolver().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                mostrarPanel("main");
+                mostrarPanel("adminSelection");
             }
         });
     }
