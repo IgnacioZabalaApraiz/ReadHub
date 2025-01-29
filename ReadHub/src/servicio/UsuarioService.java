@@ -13,4 +13,5 @@ public interface UsuarioService {
     List<Usuario> getAllUsuarios();
     Usuario getUsuarioById(int id);
     boolean registrarUsuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono);
+   void editarUsuario(Object userId, String nuevoNombre, String nuevoEmail, int nuevoTelefono) ;
 }

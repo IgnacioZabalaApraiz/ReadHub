@@ -17,6 +17,7 @@ public class AdminPanel extends JPanel {
     private JButton removeButton;
     private JButton grantPermissionButton;
     private JButton deleteButton;
+    private JButton editButton;  // Botón para editar
     private JButton backButton;
     
     public AdminPanel() {
@@ -41,6 +42,8 @@ public class AdminPanel extends JPanel {
         tableModel.addColumn("ID Usuario");
         tableModel.addColumn("Nombre");
         tableModel.addColumn("Email");
+        tableModel.addColumn("Telefono");
+        tableModel.addColumn("Rol");
         
         table = new JTable(tableModel);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -60,14 +63,15 @@ public class AdminPanel extends JPanel {
         reloadButton.addActionListener(e -> loadUsers());
         buttonPanel.add(reloadButton);
         
-        removeButton = createStyledButton("Quitar", new Color(200, 100, 100));
-        buttonPanel.add(removeButton);
+       
         
-        grantPermissionButton = createStyledButton("Dar Permisos", new Color(100, 200, 100));
-        buttonPanel.add(grantPermissionButton);
         
         deleteButton = createStyledButton("Borrar", new Color(200, 50, 50));
         buttonPanel.add(deleteButton);
+        
+        // Botón de editar
+        editButton = createStyledButton("Editar", new Color(100, 150, 255));
+        buttonPanel.add(editButton);
         
         backButton = createStyledButton("Volver", new Color(150, 150, 150));
         buttonPanel.add(backButton);
@@ -97,7 +101,9 @@ public class AdminPanel extends JPanel {
                 tableModel.addRow(new Object[]{
                     usuario.getIdUsuario(),
                     usuario.getNombre() + " " + usuario.getApellidos(),
-                    usuario.getEmail()
+                    usuario.getEmail(),
+                    usuario.getTelefono(),
+                    usuario.getRol()
                 });
             }
         }
@@ -119,7 +125,19 @@ public class AdminPanel extends JPanel {
         return deleteButton;
     }
 
+    public JButton getEditButton() {
+        return editButton;
+    }
+
     public JButton getBackButton() {
         return backButton;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }

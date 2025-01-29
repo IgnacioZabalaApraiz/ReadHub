@@ -61,5 +61,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void closeSession() {
         HibernateUtil.closeSession();
     }
+
+	@Override
+	public void editarUsuario(Object userId, String nuevoNombre, String nuevoEmail, int nuevoTelefono) {
+		usuariosCRUD.editarUsuario(userId, nuevoNombre, nuevoEmail, nuevoTelefono);
+		
+	}
 }
 
