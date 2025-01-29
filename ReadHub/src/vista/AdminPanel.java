@@ -36,12 +36,8 @@ public class AdminPanel extends JPanel {
         table.setSelectionBackground(new Color(215, 205, 239));
         
         JScrollPane scrollPane = new JScrollPane(table);
-<<<<<<< HEAD
-
-=======
         scrollPane.setBackground(new Color(255, 244, 255));
         scrollPane.getViewport().setBackground(new Color(255, 244, 255));
->>>>>>> d095176d378e8e2129d3d73ed0d70854aced34ad
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         

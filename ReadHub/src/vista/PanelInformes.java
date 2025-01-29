@@ -106,7 +106,6 @@ public class PanelInformes extends JPanel {
 		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnVolver.setFocusPainted(false);
-		
 		gbc.gridx = 0;
 		gbc.gridy = 6;
 		gbc.gridwidth = 2;

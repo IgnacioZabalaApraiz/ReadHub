@@ -134,16 +134,19 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
+        
 		bookAdminManagement.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("adminSelection");
 			}
 		});
+		
         bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("main");
             }
         });
+        
     	adminSelection.getInformesBt().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("panelInformes");
@@ -155,11 +158,19 @@ public class Controlador {
 				mostrarPanel("adminPanel");
 			}
 		});
+		
 		adminSelection.getBookmodifyBt().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("bookAdminManagement");
 			}
 		});
+		
+		adminSelection.getCloseBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
+		
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
@@ -187,7 +198,6 @@ public class Controlador {
                 }
             }
         });
- 
 
         registroPanel.getBtnRegistrar().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
