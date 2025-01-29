@@ -10,47 +10,64 @@ public class AdminSelection extends JPanel {
     private JButton informesBt;
     private JButton usermodifyBt;
     private JButton bookmodifyBt;
+    private JButton logoutButton;
 
     // Constructor
     public AdminSelection() {
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-        setLayout(gridBagLayout);
+        setBackground(new Color(255, 244, 255)); // Fondo similar al del panel de libros
+        setLayout(new BorderLayout());
 
-        JPanel panel_10 = new JPanel();
-        GridBagConstraints gbc_panel_10 = new GridBagConstraints();
-        gbc_panel_10.insets = new Insets(0, 0, 5, 5);
-        gbc_panel_10.fill = GridBagConstraints.BOTH;
-        gbc_panel_10.gridx = 0;
-        gbc_panel_10.gridy = 0;
-        add(panel_10, gbc_panel_10);
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setBackground(new Color(255, 244, 255));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Configuración del botón informesBt
-        informesBt = new JButton("INFORMES");
-        GridBagConstraints gbc_informesBt = new GridBagConstraints();
-        gbc_informesBt.insets = new Insets(0, 0, 5, 5);
-        gbc_informesBt.gridx = 1;
-        gbc_informesBt.gridy = 1;
-        add(informesBt, gbc_informesBt);
+        JLabel titleLabel = new JLabel("Panel de Administración", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(95, 88, 191));
+        gbc.gridwidth = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        mainPanel.add(titleLabel, gbc);
 
-        // Configuración del botón usermodifyBt
-        usermodifyBt = new JButton("PERMISOS USUARIOS");
-        GridBagConstraints gbc_usermodifyBt = new GridBagConstraints();
-        gbc_usermodifyBt.insets = new Insets(0, 0, 5, 5);
-        gbc_usermodifyBt.gridx = 1;
-        gbc_usermodifyBt.gridy = 2;
-        add(usermodifyBt, gbc_usermodifyBt);
+        // Configuración de los botones
+        informesBt = createStyledButton("INFORMES");
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        mainPanel.add(informesBt, gbc);
 
-        // Configuración del botón bookmodifyBt
-        bookmodifyBt = new JButton("Modificar Libros");
-        GridBagConstraints gbc_bookmodifyBt = new GridBagConstraints();
-        gbc_bookmodifyBt.insets = new Insets(0, 0, 5, 5);
-        gbc_bookmodifyBt.gridx = 1;
-        gbc_bookmodifyBt.gridy = 3;
-        add(bookmodifyBt, gbc_bookmodifyBt);
+        usermodifyBt = createStyledButton("PERMISOS USUARIOS");
+        gbc.gridy = 2;
+        mainPanel.add(usermodifyBt, gbc);
+
+        bookmodifyBt = createStyledButton("Modificar Libros");
+        gbc.gridy = 3;
+        mainPanel.add(bookmodifyBt, gbc);
+
+        add(mainPanel, BorderLayout.CENTER);
+
+        // Panel para el botón de cerrar sesión
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(255, 244, 255));
+        logoutButton = createStyledButton("Cerrar sesión", new Color(175, 166, 223));
+        buttonPanel.add(logoutButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private JButton createStyledButton(String text) {
+        return createStyledButton(text, new Color(175, 166, 223));
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setBackground(bgColor);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setPreferredSize(new Dimension(200, 40));
+        return button;
     }
 
     // Getters
@@ -64,6 +81,10 @@ public class AdminSelection extends JPanel {
 
     public JButton getBookmodifyBt() {
         return bookmodifyBt;
+    }
+
+    public JButton getLogoutButton() {
+        return logoutButton;
     }
 
     // Clase Controlador
@@ -96,6 +117,14 @@ public class AdminSelection extends JPanel {
                     mostrarPanel("panelModificarLibros");
                 }
             });
+
+            adminSelection.getLogoutButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Aquí puedes agregar la lógica para cerrar sesión
+                    System.out.println("Cerrando sesión...");
+                }
+            });
         }
 
         // Método para cambiar de panel
@@ -106,29 +135,39 @@ public class AdminSelection extends JPanel {
 
     // Método principal para probar el panel
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Admin Panel");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Admin Panel");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(600, 400);
 
-        CardLayout cardLayout = new CardLayout();
-        JPanel panelContainer = new JPanel(cardLayout);
+            CardLayout cardLayout = new CardLayout();
+            JPanel panelContainer = new JPanel(cardLayout);
+            panelContainer.setBackground(new Color(255, 244, 255));
 
-        AdminSelection adminSelection = new AdminSelection();
-        JPanel panelInformes = new JPanel();
-        panelInformes.add(new JLabel("Panel de Informes"));
-        JPanel panelPermisosUsuarios = new JPanel();
-        panelPermisosUsuarios.add(new JLabel("Panel de Permisos de Usuarios"));
-        JPanel panelModificarLibros = new JPanel();
-        panelModificarLibros.add(new JLabel("Panel de Modificar Libros"));
+            AdminSelection adminSelection = new AdminSelection();
+            JPanel panelInformes = createStyledPanel("Panel de Informes");
+            JPanel panelPermisosUsuarios = createStyledPanel("Panel de Permisos de Usuarios");
+            JPanel panelModificarLibros = createStyledPanel("Panel de Modificar Libros");
 
-        panelContainer.add(adminSelection, "adminSelection");
-        panelContainer.add(panelInformes, "panelInformes");
-        panelContainer.add(panelPermisosUsuarios, "panelPermisosUsuarios");
-        panelContainer.add(panelModificarLibros, "panelModificarLibros");
+            panelContainer.add(adminSelection, "adminSelection");
+            panelContainer.add(panelInformes, "panelInformes");
+            panelContainer.add(panelPermisosUsuarios, "panelPermisosUsuarios");
+            panelContainer.add(panelModificarLibros, "panelModificarLibros");
 
-        new Controlador(cardLayout, panelContainer, adminSelection);
+            new Controlador(cardLayout, panelContainer, adminSelection);
 
-        frame.add(panelContainer);
-        frame.setVisible(true);
+            frame.add(panelContainer);
+            frame.setVisible(true);
+        });
+    }
+
+    private static JPanel createStyledPanel(String title) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(255, 244, 255));
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(95, 88, 191));
+        panel.add(titleLabel, BorderLayout.NORTH);
+        return panel;
     }
 }

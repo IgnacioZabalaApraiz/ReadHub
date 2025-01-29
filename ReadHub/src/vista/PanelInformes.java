@@ -88,7 +88,7 @@ public class PanelInformes extends JPanel {
 		add(btnReporteFinanciero, gbc);
 
 		btnGenerosLiterarios = new JButton("Tendencias por género literario");
-		btnGenerosLiterarios.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		btnGenerosLiterarios.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btnGenerosLiterarios.setForeground(Color.WHITE);
 		btnGenerosLiterarios.setBackground(new Color(215, 205, 239)); // #d7cdef
 		btnGenerosLiterarios.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -107,7 +107,7 @@ public class PanelInformes extends JPanel {
 		btnVolver.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnVolver.setFocusPainted(false);
 		
-			gbc.gridx = 0;
+		gbc.gridx = 0;
 		gbc.gridy = 6;
 		gbc.gridwidth = 2;
 		add(btnVolver, gbc);
