@@ -170,7 +170,6 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-		
 
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

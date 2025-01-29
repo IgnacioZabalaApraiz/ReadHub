@@ -9,8 +9,10 @@ import java.util.List;
 
 public class AdminPanel extends JPanel {
     private JTable table;
+    private JPanel titlePanel;
     private DefaultTableModel tableModel;
     private UsuarioServiceImpl usuarioService;
+    private JLabel titleLabel;
     private JButton reloadButton;
     private JButton removeButton;
     private JButton grantPermissionButton;
@@ -24,11 +26,16 @@ public class AdminPanel extends JPanel {
         usuarioService = new UsuarioServiceImpl();
         
         // Create title
-        JLabel titleLabel = new JLabel("Panel de Administración", SwingConstants.CENTER);
+        titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(255, 244, 255));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        titleLabel = new JLabel("Panel de Administración");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(new Color(95, 88, 191));
-        add(titleLabel, BorderLayout.NORTH);
-
+        titlePanel.add(titleLabel);
+        add(titlePanel, BorderLayout.NORTH);
+        
         // Create table
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID Usuario");
@@ -43,8 +50,6 @@ public class AdminPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBackground(new Color(255, 244, 255));
         scrollPane.getViewport().setBackground(new Color(255, 244, 255));
-
-        setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         
         // Create button panel
