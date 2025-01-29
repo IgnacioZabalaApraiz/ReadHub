@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -44,7 +42,6 @@ public class PanelInformes extends JPanel {
 		btnLibrosPrestados.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnLibrosPrestados.setFocusPainted(false);
 		btnLibrosPrestados.addActionListener(null
-				
 				);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -93,7 +90,7 @@ public class PanelInformes extends JPanel {
 		btnGenerosLiterarios = new JButton("Tendencias por género literario");
 		btnGenerosLiterarios.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		btnGenerosLiterarios.setForeground(Color.WHITE);
-		btnGenerosLiterarios.setBackground(new Color(255, 244, 255)); // #fff4ff
+		btnGenerosLiterarios.setBackground(new Color(215, 205, 239)); // #d7cdef
 		btnGenerosLiterarios.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnGenerosLiterarios.setFocusPainted(false);
 		btnGenerosLiterarios.addActionListener(null
@@ -106,7 +103,7 @@ public class PanelInformes extends JPanel {
 		btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		btnVolver.setForeground(Color.BLACK);
-		btnVolver.setBackground(new Color(215, 205, 239)); // #d7cdef
+		btnVolver.setBackground(Color.WHITE);
 		btnVolver.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		btnVolver.setFocusPainted(false);
 		
