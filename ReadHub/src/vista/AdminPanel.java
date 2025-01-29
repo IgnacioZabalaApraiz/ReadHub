@@ -11,7 +11,12 @@ public class AdminPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
     private UsuarioServiceImpl usuarioService;
-
+    private JButton reloadButton;
+    private JButton removeButton;
+    private JButton grantPermissionButton;
+    private JButton deleteButton;
+    private JButton backButton;
+    
     public AdminPanel() {
         setLayout(new BorderLayout());
         setBackground(new Color(255, 244, 255));
@@ -38,6 +43,7 @@ public class AdminPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBackground(new Color(255, 244, 255));
         scrollPane.getViewport().setBackground(new Color(255, 244, 255));
+
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         
@@ -45,9 +51,21 @@ public class AdminPanel extends JPanel {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(255, 244, 255));
         
-        JButton reloadButton = createStyledButton("Recargar Usuarios", new Color(95, 88, 191));
+        reloadButton = createStyledButton("Recargar Usuarios", new Color(95, 88, 191));
         reloadButton.addActionListener(e -> loadUsers());
         buttonPanel.add(reloadButton);
+        
+        removeButton = createStyledButton("Quitar", new Color(200, 100, 100));
+        buttonPanel.add(removeButton);
+        
+        grantPermissionButton = createStyledButton("Dar Permisos", new Color(100, 200, 100));
+        buttonPanel.add(grantPermissionButton);
+        
+        deleteButton = createStyledButton("Borrar", new Color(200, 50, 50));
+        buttonPanel.add(deleteButton);
+        
+        backButton = createStyledButton("Volver", new Color(150, 150, 150));
+        buttonPanel.add(backButton);
         
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -78,5 +96,25 @@ public class AdminPanel extends JPanel {
                 });
             }
         }
+    }
+
+    public JButton getReloadButton() {
+        return reloadButton;
+    }
+
+    public JButton getRemoveButton() {
+        return removeButton;
+    }
+
+    public JButton getGrantPermissionButton() {
+        return grantPermissionButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JButton getBackButton() {
+        return backButton;
     }
 }
