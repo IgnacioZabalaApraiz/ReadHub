@@ -160,6 +160,7 @@ public class Controlador {
 				mostrarPanel("bookAdminManagement");
 			}
 		});
+		
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
