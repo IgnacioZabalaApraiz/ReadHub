@@ -220,6 +220,12 @@ public class Controlador {
                 reserveBook(libro);
             }
         });
+        
+        panelInformes.getBtnVolver().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
