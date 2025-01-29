@@ -3,6 +3,8 @@ package modeloHibernate;
 import jakarta.persistence.*;
 import java.util.Date;
 
+
+
 @Entity
 @Table(name = "libro")
 public class Libro {
@@ -42,6 +44,18 @@ public class Libro {
         this.fechaPublicacion = fechaPublicacion;
         this.disponibilidad = disponibilidad;
         this.urlImagen = urlImagen;
+    }
+    
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = true) // Nullable si no siempre está reservado
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     // Getters and setters

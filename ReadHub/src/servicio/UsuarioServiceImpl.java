@@ -13,11 +13,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final UsuariosCRUD usuariosCRUD;
 
     public UsuarioServiceImpl() {
-        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Usuario.class)
-                .buildSessionFactory();
-        Session session = factory.getCurrentSession();
-        usuariosCRUD = new UsuariosCRUD(session);
+        Session session = HibernateUtil.getSession();
+        usuariosCRUD = new UsuariosCRUD();
     }
 
     @Override
@@ -60,4 +57,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void eliminarUsuario(Long id) {
         usuariosCRUD.eliminarUsuario(id.intValue());
     }
+
+    public void closeSession() {
+        HibernateUtil.closeSession();
+    }
 }
+

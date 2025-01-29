@@ -14,7 +14,11 @@ public class PrestamoCRUD {
     public void prestarLibro(Long idLibro, Long idUsuario, Date fechaPrestamo) {
         Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+        	if (!session.getTransaction().isActive()) {
+        	    transaction = session.beginTransaction();
+        	} else {
+        		transaction = session.getTransaction();
+        	}
 
             // Crear un nuevo préstamo
             Prestamo prestamo = new Prestamo();

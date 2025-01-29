@@ -4,6 +4,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import javax.swing.*;
 
@@ -18,6 +20,7 @@ import vista.PanelInformes;
 import vista.Registro;
 import vista.AdminPanel;
 import vista.AdminSelection;
+import vista.BookAdminManagement;
 import vista.BookManagement;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
@@ -26,6 +29,7 @@ import modeloHibernate.PrestamoCRUD;
 import modeloHibernate.Usuario;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
+import servicio.HibernateUtil;
 
 public class Controlador {
 
@@ -46,18 +50,19 @@ public class Controlador {
     private AdminPanel adminPanel;
     private AdminSelection adminSelection;
     private PanelInformes panelInformes;
+    private BookAdminManagement bookAdminManagement;
 
     public Controlador() {
         try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-            session = sessionFactory.getCurrentSession(); // Usamos getCurrentSession()
-            session.beginTransaction(); // Iniciamos la transacción aquí
+            session = HibernateUtil.getSession();
+            session.beginTransaction(); 
             librosCRUD = new LibrosCRUD(session);
-            usuariosCRUD = new UsuariosCRUD(session);
+            usuariosCRUD = new UsuariosCRUD();
             prestamosCRUD = new PrestamoCRUD(session);
             libroService = new LibroServiceImpl();
             adminSelection = new AdminSelection();
             panelInformes = new PanelInformes();
+            bookAdminManagement = new BookAdminManagement(session);
         } catch (Throwable ex) {
             System.err.println("Failed to create sessionFactory object." + ex);
             throw new ExceptionInInitializerError(ex);
@@ -69,7 +74,7 @@ public class Controlador {
     private void inicializarComponentes() {
         mainFrame = new JFrame("ReadHub");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(700, 500);
+        mainFrame.setSize(900, 600);
         mainFrame.setLocationRelativeTo(null);
         ImageIcon icono = new ImageIcon("imagenes/bibliotecalogo.png");
         mainFrame.setIconImage(icono.getImage());
@@ -81,6 +86,7 @@ public class Controlador {
         adminPanel = new AdminPanel();
         adminSelection = new AdminSelection();
         panelInformes = new PanelInformes();
+        bookAdminManagement = new BookAdminManagement(session);
         
         cardPanel = new JPanel();
         cardLayout = new CardLayout();
@@ -93,7 +99,7 @@ public class Controlador {
         cardPanel.add(adminPanel, "adminPanel");
         cardPanel.add(adminSelection, "adminSelection");
         cardPanel.add(panelInformes, "panelInformes");
-
+        cardPanel.add(bookAdminManagement, "bookAdminManagement");
         mainFrame.setContentPane(cardPanel);
         cardLayout.show(cardPanel, "main");
     }
@@ -128,7 +134,11 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
-
+		bookAdminManagement.getBackButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarPanel("adminSelection");
+			}
+		});
         bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("main");
@@ -140,7 +150,16 @@ public class Controlador {
 			}
 		});
 	
-        
+		adminSelection.getUsermodifyBt().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarPanel("adminPanel");
+			}
+		});
+		adminSelection.getBookmodifyBt().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarPanel("bookAdminManagement");
+			}
+		});
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
@@ -229,12 +248,28 @@ public class Controlador {
         JOptionPane.showMessageDialog(mainFrame, message, title, messageType);
     }
 
+    private void closeResources() {
+        if (session != null && session.isOpen()) {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().commit();
+            }
+            HibernateUtil.closeSession();
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 try {
                     Controlador controlador = new Controlador();
                     controlador.mainFrame.setVisible(true);
+                    controlador.mainFrame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            controlador.closeResources();
+                            HibernateUtil.closeSessionFactory();
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

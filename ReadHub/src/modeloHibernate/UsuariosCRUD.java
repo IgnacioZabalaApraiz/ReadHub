@@ -5,23 +5,16 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import servicio.HibernateUtil;
 
 public class UsuariosCRUD {
-    private final Session session;
 
-    public UsuariosCRUD(final Session session) {
-        this.session = session;
+    public UsuariosCRUD() {
+        // No need to store the session as a field
     }
 
     public boolean registrarUsuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono) {
-        if (nombre == null || nombre.isEmpty() ||
-            apellidos == null || apellidos.isEmpty() ||
-            contrasena == null || contrasena.isEmpty() ||
-            email == null || email.isEmpty()) {
-            System.out.println("Error: Algunos campos obligatorios están vacíos.");
-            return false;
-        }
-
+        Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -39,6 +32,7 @@ public class UsuariosCRUD {
     }
 
     public Usuario iniciarSesion(String nombreUsuario, String contrasena) {
+        Session session = HibernateUtil.getSession();
         try {
             String hql = "FROM Usuario u WHERE u.nombre = :nombreUsuario AND u.contrasena = :contrasena";
             Query<Usuario> query = session.createQuery(hql, Usuario.class);
@@ -52,6 +46,7 @@ public class UsuariosCRUD {
     }
 
     public List<Usuario> obtenerTodosUsuarios() {
+        Session session = HibernateUtil.getSession();
         try {
             String hql = "FROM Usuario";
             Query<Usuario> query = session.createQuery(hql, Usuario.class);
@@ -63,6 +58,7 @@ public class UsuariosCRUD {
     }
 
     public Usuario obtenerUsuarioPorId(int id) {
+        Session session = HibernateUtil.getSession();
         try {
             return session.get(Usuario.class, id);
         } catch (Exception e) {
@@ -72,6 +68,7 @@ public class UsuariosCRUD {
     }
 
     public boolean eliminarUsuario(int id) {
+        Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -94,6 +91,7 @@ public class UsuariosCRUD {
     }
 
     public boolean actualizarUsuario(Usuario usuario) {
+        Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -109,3 +107,4 @@ public class UsuariosCRUD {
         }
     }
 }
+
