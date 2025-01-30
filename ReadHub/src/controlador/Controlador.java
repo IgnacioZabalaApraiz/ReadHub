@@ -200,6 +200,9 @@ public class Controlador {
 		            String nuevoNombre = JOptionPane.showInputDialog(adminPanel, "Nuevo nombre:");
 		            String nuevoEmail = JOptionPane.showInputDialog(adminPanel, "Nuevo email:");
 		            String telefonoStr = JOptionPane.showInputDialog(adminPanel, "Nuevo teléfono:");
+		            String nuevoRol = JOptionPane.showInputDialog(adminPanel, "Nuevo rol (usuario/administrador):");
+		            String nuevoApellido = JOptionPane.showInputDialog(adminPanel, "Nuevo apellido:");
+		            
 		            int nuevoTelefono = 0;
 		            try {
 		                nuevoTelefono = Integer.parseInt(telefonoStr); // Convertir teléfono a int
@@ -209,7 +212,7 @@ public class Controlador {
 		            }
 		            
 		            // Llamar al método de edición de usuario
-		            boolean success = usuariosCRUD.editarUsuario(userId, nuevoNombre, nuevoEmail, nuevoTelefono);
+		            boolean success = usuariosCRUD.editarUsuario(userId, nuevoNombre,nuevoApellido, nuevoEmail, nuevoTelefono, nuevoRol);
 
 		            if (success) {
 		                JOptionPane.showMessageDialog(adminPanel, "Usuario actualizado exitosamente.");

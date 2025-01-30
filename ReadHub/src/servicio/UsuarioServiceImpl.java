@@ -63,8 +63,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 	@Override
-	public void editarUsuario(Object userId, String nuevoNombre, String nuevoEmail, int nuevoTelefono) {
-		usuariosCRUD.editarUsuario(userId, nuevoNombre, nuevoEmail, nuevoTelefono);
+	public void editarUsuario(Object userId, String nuevoNombre, String nuevoApellido ,String nuevoEmail, int nuevoTelefono, String nuevoRol) {
+		usuariosCRUD.editarUsuario(userId, nuevoNombre,nuevoApellido, nuevoEmail, nuevoTelefono, nuevoRol);
 		
 	}
 }

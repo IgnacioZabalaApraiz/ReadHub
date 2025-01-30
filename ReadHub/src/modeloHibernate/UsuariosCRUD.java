@@ -110,24 +110,38 @@ public class UsuariosCRUD {
             }
         }
     }
-    public boolean editarUsuario(Object userId, String nuevoNombre, String nuevoEmail, int nuevoTelefono) {
+    public boolean editarUsuario(Object userId, String nuevoNombre, String nuevoApellido, String nuevoEmail, int nuevoTelefono, String nuevoRol) {
         Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
-            // Verifica si el userId es válido y convertirlo a Long (o Integer según corresponda)
+            // Verifica si hay una transacción activa
+            if (!session.getTransaction().isActive()) {
+                transaction = session.beginTransaction();
+            } else {
+                transaction = session.getTransaction();
+            }
+
+            // Validar el tipo de userId
             if (userId instanceof Long || userId instanceof Integer) {
                 Long userIdLong = (userId instanceof Long) ? (Long) userId : Long.valueOf((Integer) userId);
 
                 // Obtener el usuario por ID
                 Usuario usuario = session.get(Usuario.class, userIdLong);
                 if (usuario != null) {
-                    // Aquí actualizas los datos del usuario
+                    // Actualizar los datos del usuario
                     usuario.setNombre(nuevoNombre);
                     usuario.setEmail(nuevoEmail);
                     usuario.setTelefono(nuevoTelefono);
+                    usuario.setApellidos(nuevoApellido);
+                    
+                    try {
+                        usuario.setRol(Usuario.Rol.valueOf(nuevoRol.toLowerCase()));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Rol inválido: " + nuevoRol);
+                        return false;
+                    }
 
-                    // Inicia la transacción y actualiza el usuario
-                    transaction = session.beginTransaction();
+                    // Guardar los cambios
                     session.update(usuario);
                     transaction.commit();
                     return true;
@@ -152,6 +166,8 @@ public class UsuariosCRUD {
             }
         }
     }
+
+
 
 
 
