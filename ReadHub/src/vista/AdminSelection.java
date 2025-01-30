@@ -10,7 +10,7 @@ public class AdminSelection extends JPanel {
     private JButton informesBt;
     private JButton usermodifyBt;
     private JButton bookmodifyBt;
-    private JButton logoutButton;
+    private JButton backButton;
 
     // Constructor
     public AdminSelection() {
@@ -47,11 +47,11 @@ public class AdminSelection extends JPanel {
 
         add(mainPanel, BorderLayout.CENTER);
 
-        // Panel para el botón de cerrar sesión
+        // Panel para el botón de volver
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(255, 244, 255));
-        logoutButton = createStyledButton("Cerrar sesión", new Color(175, 166, 223));
-        buttonPanel.add(logoutButton);
+        backButton = createStyledButton("Volver al Login", new Color(175, 166, 223));
+        buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -83,8 +83,8 @@ public class AdminSelection extends JPanel {
         return bookmodifyBt;
     }
 
-    public JButton getLogoutButton() {
-        return logoutButton;
+    public JButton getBackButton() {
+        return backButton;
     }
 
     // Clase Controlador
@@ -118,13 +118,7 @@ public class AdminSelection extends JPanel {
                 }
             });
 
-            adminSelection.getLogoutButton().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Aquí puedes agregar la lógica para cerrar sesión
-                    System.out.println("Cerrando sesión...");
-                }
-            });
+            // No es necesario configurar el ActionListener para el botón de volver aquí
         }
 
         // Método para cambiar de panel
