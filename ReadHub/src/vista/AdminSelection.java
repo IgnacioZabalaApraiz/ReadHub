@@ -39,7 +39,7 @@ public class AdminSelection extends JPanel {
         add(informesBt, gbc);
         
         // Configuración del botón usermodifyBt
-        usermodifyBt = new JButton("Permisos usuarios");
+        usermodifyBt = new JButton("Modificar Usuarios");
         usermodifyBt.setFont(new Font("Segoe UI", Font.BOLD, 14));
         usermodifyBt.setForeground(Color.WHITE);
         usermodifyBt.setBackground(new Color(135, 127, 207)); // #877fcf
