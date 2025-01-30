@@ -301,15 +301,26 @@ public class BookAdminManagement extends JPanel {
         }
 
         private void modifyBook() {
-            // Lógica para modificar los datos del libro
-            JOptionPane.showMessageDialog(null, "Modificar datos del libro: " + libro.getTitulo());
+            // Crear la ventana para modificar el libro
+            ModificarLibro modificarLibroForm = new ModificarLibro(libroService, libro);
+            
+            // Establecer un ActionListener para cuando el libro sea modificado
+            modificarLibroForm.setOnBookModifiedListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    updateView();  // Actualizar la vista para reflejar los cambios
+                }
+            });
+            
+            // Hacer visible la ventana de modificación
+            modificarLibroForm.setVisible(true);
         }
 
         private void deleteBook() {
             int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que deseas eliminar este libro?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                LibrosCRUD librosCRUD = new LibrosCRUD(session);
-                librosCRUD.borrarLibro(libro.getIdLibro());
+                LibroServiceImpl libroServiceImpl = new LibroServiceImpl();
+                libroServiceImpl.deleteLibro(libro);
                 updateView();
             }
         }
