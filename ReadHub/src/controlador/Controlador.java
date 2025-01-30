@@ -54,6 +54,7 @@ public class Controlador {
     private BookAdminManagement bookAdminManagement;
 
     public Controlador() {
+    	
         try {
             session = HibernateUtil.getSession();
             session.beginTransaction(); 
@@ -357,6 +358,7 @@ public class Controlador {
                         public void windowClosing(WindowEvent e) {
                             controlador.closeResources();
                             HibernateUtil.closeSessionFactory();
+                            
                         }
                     });
                 } catch (Exception e) {
