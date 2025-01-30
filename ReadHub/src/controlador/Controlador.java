@@ -360,18 +360,20 @@ public class Controlador {
     private void generatePopularBooksReport() {
         try {
             // Initialize the Platform
-            IReportEngineFactory factory = (IReportEngineFactory) Platform
-                .createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
-            IReportEngine engine = factory.createReportEngine(new EngineConfig());
+            EngineConfig config = new EngineConfig();
+            config.setBIRTHome("path/to/your/birt/runtime");  // Set this to your BIRT runtime directory
+            Platform.startup(config);
+            IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+            IReportEngine engine = factory.createReportEngine(config);
 
             // Open the report design
-            IReportRunnable design = engine.openReportDesign("reports/libros_populares.rptdesign");
+            IReportRunnable design = engine.openReportDesign("src/reports/librosPopulares.rptdesign");
 
             // Create task to run and render the report
             IRunAndRenderTask task = engine.createRunAndRenderTask(design);
 
             // Set output options
-            String outputFileName = "libros_populares.pdf";
+            String outputFileName = "librosPopulares.pdf";
             IRenderOption options = new RenderOption();
             options.setOutputFormat("pdf");
             options.setOutputFileName(outputFileName);
@@ -382,6 +384,7 @@ public class Controlador {
 
             // Close the engine
             engine.destroy();
+            Platform.shutdown();
 
             // Open the generated PDF with the default system viewer
             File pdfFile = new File(outputFileName);
@@ -397,6 +400,7 @@ public class Controlador {
 
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(mainFrame, "Error generating report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

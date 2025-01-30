@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.26" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.18.0.v202411161754</property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="4">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.cj.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/biblioteca</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="prestamos" id="5">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Título del Libro</property>
+                    <text-property name="displayName">Título del Libro</text-property>
+                    <text-property name="heading">Título del Libro</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Nombre del Usuario</property>
+                    <text-property name="displayName">Nombre del Usuario</text-property>
+                    <text-property name="heading">Nombre del Usuario</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Fecha de Préstamo</property>
+                    <text-property name="displayName">Fecha de Préstamo</text-property>
+                    <text-property name="heading">Fecha de Préstamo</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Fecha de Devolución</property>
+                    <text-property name="displayName">Fecha de Devolución</text-property>
+                    <text-property name="heading">Fecha de Devolución</text-property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Título del Libro</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Nombre del Usuario</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Fecha de Préstamo</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Fecha de Devolución</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Título del Libro</property>
+                    <property name="nativeName">titulo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">Nombre del Usuario</property>
+                    <property name="nativeName">Nombre del Usuario</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Fecha de Préstamo</property>
+                    <property name="nativeName">fecha_prestamo</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Fecha de Devolución</property>
+                    <property name="nativeName">fecha_devolucion</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[SELECT 
+    l.titulo AS 'Título del Libro',
+    CONCAT(u.nombre, ' ', u.apellidos) AS 'Nombre del Usuario',
+    p.fecha_prestamo AS 'Fecha de Préstamo',
+    p.fecha_devolucion AS 'Fecha de Devolución'
+FROM 
+    prestamo p
+    INNER JOIN libro l ON p.id_libro_prestamo = l.id_libro
+    INNER JOIN usuarios u ON p.id_usuario_prestamo = u.id_usuario
+ORDER BY 
+    p.fecha_prestamo DESC;]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>titulo</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Título del Libro</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Título del Libro</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>Nombre del Usuario</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>511</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Nombre del Usuario</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Nombre del Usuario</design:label>
+            <design:formattingHints>
+              <design:displaySize>511</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>fecha_prestamo</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Fecha de Préstamo</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Fecha de Préstamo</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>fecha_devolucion</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>Fecha de Devolución</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>Fecha de Devolución</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-header>
+                <text id="6">
+                    <property name="fontSize">18pt</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="textAlign">center</property>
+                    <property name="contentType">auto</property>
+                    <text-property name="content"><![CDATA[Historial de prestamos]]></text-property>
+                </text>
+            </page-header>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="7">
+            <property name="dataSet">prestamos</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Título del Libro</property>
+                    <text-property name="displayName">Título del Libro</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Título del Libro"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Nombre del Usuario</property>
+                    <text-property name="displayName">Nombre del Usuario</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Nombre del Usuario"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Fecha de Préstamo</property>
+                    <text-property name="displayName">Fecha de Préstamo</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Fecha de Préstamo"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Fecha de Devolución</property>
+                    <text-property name="displayName">Fecha de Devolución</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Fecha de Devolución"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <column id="31"/>
+            <column id="32"/>
+            <column id="33"/>
+            <column id="34"/>
+            <header>
+                <row id="8">
+                    <cell id="9">
+                        <label id="10">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Título del Libro</text-property>
+                        </label>
+                    </cell>
+                    <cell id="11">
+                        <label id="12">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Nombre del Usuario</text-property>
+                        </label>
+                    </cell>
+                    <cell id="13">
+                        <label id="14">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Fecha de Préstamo</text-property>
+                        </label>
+                    </cell>
+                    <cell id="15">
+                        <label id="16">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Fecha de Devolución</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="17">
+                    <cell id="18">
+                        <data id="19">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">Título del Libro</property>
+                        </data>
+                    </cell>
+                    <cell id="20">
+                        <data id="21">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">Nombre del Usuario</property>
+                        </data>
+                    </cell>
+                    <cell id="22">
+                        <data id="23">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">Fecha de Préstamo</property>
+                        </data>
+                    </cell>
+                    <cell id="24">
+                        <data id="25">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">Fecha de Devolución</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="26">
+                    <cell id="27"/>
+                    <cell id="28"/>
+                    <cell id="29"/>
+                    <cell id="30"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
