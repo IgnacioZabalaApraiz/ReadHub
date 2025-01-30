@@ -2,10 +2,12 @@ package controlador;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Date;
 import javax.swing.*;
 
@@ -13,6 +15,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.*;
 
 import vista.Login;
 import vista.MainPanel;
@@ -22,6 +26,7 @@ import vista.AdminPanel;
 import vista.AdminSelection;
 import vista.BookAdminManagement;
 import vista.BookManagement;
+import vista.FormularioLibro;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
 import modeloHibernate.Libro;
@@ -53,6 +58,7 @@ public class Controlador {
     private BookAdminManagement bookAdminManagement;
 
     public Controlador() {
+    	
         try {
             session = HibernateUtil.getSession();
             session.beginTransaction(); 
@@ -295,6 +301,19 @@ public class Controlador {
                 mostrarPanel("adminSelection");
             }
         });
+        
+        bookAdminManagement.getAddBookButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirFormularioLibro();
+            }
+        });
+        
+        panelInformes.getBtnLibrosPopulares().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                generatePopularBooksReport();
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
@@ -315,6 +334,12 @@ public class Controlador {
         }
         bookManagementPanel.updateView();
     }
+    
+
+    private void abrirFormularioLibro() {
+        FormularioLibro formularioLibro = new FormularioLibro(libroService);
+        formularioLibro.setVisible(true);
+    }
 
     private void showStyledMessage(String message, String title, int messageType) {
         UIManager.put("OptionPane.background", new Color(255, 244, 255));
@@ -331,6 +356,49 @@ public class Controlador {
             HibernateUtil.closeSession();
         }
     }
+    
+    private void generatePopularBooksReport() {
+        try {
+            // Initialize the Platform
+            IReportEngineFactory factory = (IReportEngineFactory) Platform
+                .createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+            IReportEngine engine = factory.createReportEngine(new EngineConfig());
+
+            // Open the report design
+            IReportRunnable design = engine.openReportDesign("reports/libros_populares.rptdesign");
+
+            // Create task to run and render the report
+            IRunAndRenderTask task = engine.createRunAndRenderTask(design);
+
+            // Set output options
+            String outputFileName = "libros_populares.pdf";
+            IRenderOption options = new RenderOption();
+            options.setOutputFormat("pdf");
+            options.setOutputFileName(outputFileName);
+            task.setRenderOption(options);
+
+            // Run the report
+            task.run();
+
+            // Close the engine
+            engine.destroy();
+
+            // Open the generated PDF with the default system viewer
+            File pdfFile = new File(outputFileName);
+            if (pdfFile.exists()) {
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().open(pdfFile);
+                } else {
+                    System.out.println("Awt Desktop is not supported!");
+                }
+            } else {
+                System.out.println("File does not exist!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -343,6 +411,7 @@ public class Controlador {
                         public void windowClosing(WindowEvent e) {
                             controlador.closeResources();
                             HibernateUtil.closeSessionFactory();
+                            
                         }
                     });
                 } catch (Exception e) {

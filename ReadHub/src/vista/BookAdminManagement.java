@@ -29,6 +29,7 @@ public class BookAdminManagement extends JPanel {
     private Session session;
     private ActionListener reserveBookListener;
     private Usuario usuarioConectado;
+    private JButton addBookButton;
 
     public BookAdminManagement(Session session) {
         this(session, null);
@@ -55,6 +56,10 @@ public class BookAdminManagement extends JPanel {
         buttonPanel.setBackground(new Color(255, 244, 255));
         backButton = createStyledButton("Volver", new Color(175, 166, 223));
         buttonPanel.add(backButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+   
+        addBookButton = createStyledButton("Añadir Libro", new Color(95, 88, 191));
+        buttonPanel.add(addBookButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         JLabel titleLabel = new JLabel("Catálogo de Libros", SwingConstants.CENTER);
@@ -98,6 +103,10 @@ public class BookAdminManagement extends JPanel {
 
     public JButton getBackButton() {
         return backButton;
+    }
+    
+    public JButton getAddBookButton() {
+        return addBookButton;
     }
 
     public void setReserveBookListener(ActionListener listener) {

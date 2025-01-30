@@ -121,5 +121,10 @@ public class Libro {
                ", fechaPublicacion=" + fechaPublicacion + ", disponibilidad=" + disponibilidad + 
                ", urlImagen=" + urlImagen + "]";
     }
+
+	public void setFechaPublicacion(int añoPublicacion) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
