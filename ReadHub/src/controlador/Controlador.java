@@ -198,10 +198,11 @@ public class Controlador {
 		            
 		            // Pedir los nuevos datos para editar
 		            String nuevoNombre = JOptionPane.showInputDialog(adminPanel, "Nuevo nombre:");
+		            String nuevoApellido = JOptionPane.showInputDialog(adminPanel, "Nuevo apellido:");
+
 		            String nuevoEmail = JOptionPane.showInputDialog(adminPanel, "Nuevo email:");
 		            String telefonoStr = JOptionPane.showInputDialog(adminPanel, "Nuevo teléfono:");
 		            String nuevoRol = JOptionPane.showInputDialog(adminPanel, "Nuevo rol (usuario/administrador):");
-		            String nuevoApellido = JOptionPane.showInputDialog(adminPanel, "Nuevo apellido:");
 		            
 		            int nuevoTelefono = 0;
 		            try {
@@ -284,7 +285,11 @@ public class Controlador {
                 reserveBook(libro);
             }
         });
-        
+        adminPanel.getBackButton() .addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("adminSelection");
+            }
+        });
         panelInformes.getBtnVolver().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("adminSelection");
