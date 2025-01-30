@@ -338,9 +338,16 @@ public class Controlador {
 
     private void abrirFormularioLibro() {
         FormularioLibro formularioLibro = new FormularioLibro(libroService);
+        
+        formularioLibro.setOnBookAddedListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bookAdminManagement.updateView(); // Refresca la lista de libros
+            }
+        });
+
         formularioLibro.setVisible(true);
     }
-
     private void showStyledMessage(String message, String title, int messageType) {
         UIManager.put("OptionPane.background", new Color(255, 244, 255));
         UIManager.put("Panel.background", new Color(255, 244, 255));

@@ -8,16 +8,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+
 import modeloHibernate.Libro;
 import servicio.LibroService;
 
-public class FormularioLibro extends JFrame {
-	private ActionListener onBookAddedListener;
-    private JTextField txtTitulo, txtAutor, txtGenero, txtUrlImagen;
-    private JSpinner spinnerFechaPublicacion;
-    private JCheckBox chkDisponibilidad;
+public class ModificarLibro extends JFrame {
+    private ActionListener onBookModifiedListener;
+    private JTextField txtTitulo, txtAutor, txtGenero;
     private JButton btnGuardar, btnCancelar;
     private LibroService libroService;
+    private Libro libro;
 
     // Definición de colores
     private static final Color COLOR_1 = new Color(0x5f58bf);
@@ -26,14 +26,15 @@ public class FormularioLibro extends JFrame {
     private static final Color COLOR_4 = new Color(0xd7cdef);
     private static final Color COLOR_5 = new Color(0xfff4ff);
     
-    public void setOnBookAddedListener(ActionListener listener) {
-        this.onBookAddedListener = listener;
+    public void setOnBookModifiedListener(ActionListener listener) {
+        this.onBookModifiedListener = listener;
     }
 
-    public FormularioLibro(LibroService libroService) {
+    public ModificarLibro(LibroService libroService, Libro libro) {
         this.libroService = libroService;
-        setTitle("Registro de Libro");
-        setSize(500, 450);
+        this.libro = libro;
+        setTitle("Modificar Libro");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         
@@ -52,7 +53,7 @@ public class FormularioLibro extends JFrame {
         gbc.weightx = 1.0;
 
         // Título del formulario
-        JLabel titleLabel = new JLabel("Nuevo Libro", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Modificar Libro", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(COLOR_1);
         gbc.gridwidth = 2;
@@ -61,13 +62,13 @@ public class FormularioLibro extends JFrame {
 
         // Crear y añadir componentes
         addLabelAndField(mainPanel, "Título:", txtTitulo = createStyledTextField(), gbc, 1);
+        txtTitulo.setText(libro.getTitulo());
+        
         addLabelAndField(mainPanel, "Autor:", txtAutor = createStyledTextField(), gbc, 2);
+        txtAutor.setText(libro.getAutor());
+
         addLabelAndField(mainPanel, "Género:", txtGenero = createStyledTextField(), gbc, 3);
-
-        addLabelAndField(mainPanel, "Fecha de Publicación:", createDateSpinner(), gbc, 4);
-
-        addLabelAndField(mainPanel, "Disponibilidad:", createStyledCheckBox(), gbc, 5);
-        addLabelAndField(mainPanel, "URL Imagen:", txtUrlImagen = createStyledTextField(), gbc, 6);
+        txtGenero.setText(libro.getGenero());
 
         // Panel para botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -77,13 +78,13 @@ public class FormularioLibro extends JFrame {
         buttonPanel.add(btnGuardar);
         buttonPanel.add(btnCancelar);
 
-        gbc.gridy = 7;
+        gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(20, 10, 10, 10);
         mainPanel.add(buttonPanel, gbc);
 
         // Acciones de los botones
-        btnGuardar.addActionListener(e -> guardarLibro());
+        btnGuardar.addActionListener(e -> modificarLibro());
         btnCancelar.addActionListener(e -> dispose());
     }
 
@@ -97,21 +98,6 @@ public class FormularioLibro extends JFrame {
         ));
         textField.setFont(new Font("Arial", Font.PLAIN, 14));
         return textField;
-    }
-
-    private JComponent createDateSpinner() {
-        spinnerFechaPublicacion = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinnerFechaPublicacion, "dd/MM/yyyy");
-        spinnerFechaPublicacion.setEditor(dateEditor);
-        spinnerFechaPublicacion.setFont(new Font("Arial", Font.PLAIN, 14));
-        return spinnerFechaPublicacion;
-    }
-
-    private JCheckBox createStyledCheckBox() {
-        chkDisponibilidad = new JCheckBox();
-        chkDisponibilidad.setBackground(COLOR_5);
-        chkDisponibilidad.setForeground(COLOR_1);
-        return chkDisponibilidad;
     }
 
     private JButton createStyledButton(String text, Color bgColor, Color fgColor) {
@@ -143,31 +129,30 @@ public class FormularioLibro extends JFrame {
         panel.add(field, gbc);
     }
 
-    private void guardarLibro() {
+    private void modificarLibro() {
         String titulo = txtTitulo.getText();
         String autor = txtAutor.getText();
         String genero = txtGenero.getText();
-        Date fechaPublicacion = (Date) spinnerFechaPublicacion.getValue();
-        boolean disponibilidad = chkDisponibilidad.isSelected();
-        String urlImagen = txtUrlImagen.getText();
 
         if (titulo.isEmpty() || autor.isEmpty() || genero.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Guardar el libro en la base de datos
-        Libro libro = new Libro(titulo, autor, genero, fechaPublicacion, disponibilidad, urlImagen);
+        // Modificar el libro en la base de datos
+        libro.setTitulo(titulo);
+        libro.setAutor(autor);
+        libro.setGenero(genero);
         libroService.saveLibro(libro);
 
-        JOptionPane.showMessageDialog(this, "Libro guardado:\n" + libro.getTitulo(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Libro modificado:\n" + libro.getTitulo(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-        // Notificar al controlador que se ha agregado un nuevo libro
-        if (onBookAddedListener != null) {
-            onBookAddedListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "bookAdded"));
+        // Notificar al controlador que se ha modificado un libro
+        if (onBookModifiedListener != null) {
+            onBookModifiedListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "bookModified"));
         }
 
-        dispose(); // Cierra el formulario después de guardar el libro
+        dispose(); // Cierra el formulario después de modificar el libro
     }
 
     public static void main(String[] args) {
@@ -177,7 +162,7 @@ public class FormularioLibro extends JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            new FormularioLibro(null).setVisible(true);
+         
         });
     }
 }

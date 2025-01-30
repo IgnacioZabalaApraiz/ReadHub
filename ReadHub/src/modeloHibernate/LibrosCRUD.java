@@ -32,6 +32,7 @@
 	            Libro libro = session.get(Libro.class, id);
 	            if (libro != null) {
 	                session.remove(libro);
+	                System.out.println("-------- El libro ha sido eliminado correctamente --------");
 	            }
 	            transaction.commit();
 	        } catch (Exception e) {
