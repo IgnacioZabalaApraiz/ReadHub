@@ -7,12 +7,13 @@ import modeloHibernate.Usuario;
 import modeloHibernate.PrestamoCRUD;
 import servicio.LibroService;
 import servicio.LibroServiceImpl;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import javax.swing.border.AbstractBorder;
@@ -28,15 +29,13 @@ public class BookManagement extends JPanel {
     private Session session;
     private ActionListener reserveBookListener;
     private Usuario usuarioConectado;
+    private JComboBox<String> genreFilter;
+    private List<Libro> allLibros;
 
     public BookManagement(Session session) {
         this(session, null);
     }
 
-    /**
-     * @wbp.parser.constructor
-     */
-    //manejar los libros
     public BookManagement(Session session, Usuario usuarioConectado) {
         this.session = session;
         this.usuarioConectado = usuarioConectado;
@@ -52,8 +51,6 @@ public class BookManagement extends JPanel {
         scrollPane.setBackground(new Color(255, 244, 255));
         add(scrollPane, BorderLayout.CENTER);
 
-        displayBooks();
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(255, 244, 255));
         backButton = createStyledButton("Volver", new Color(175, 166, 223));
@@ -64,10 +61,46 @@ public class BookManagement extends JPanel {
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(new Color(95, 88, 191));
         add(titleLabel, BorderLayout.NORTH);
+
+        JPanel filterPanel = new JPanel();
+        filterPanel.setBackground(new Color(255, 244, 255));
+
+        genreFilter = new JComboBox<>();
+        genreFilter.addItem("Todos los géneros");
+
+        filterPanel.add(new JLabel("Género:"));
+        filterPanel.add(genreFilter);
+
+        add(filterPanel, BorderLayout.NORTH);
+
+        genreFilter.addActionListener(e -> updateBookDisplay());
+
+        loadBooks();
     }
 
-    private void displayBooks() {
-        List<Libro> libros = libroService.getAllLibros();
+    private void loadBooks() {
+        allLibros = libroService.getAllLibros();
+        updateFilterOptions();
+        updateBookDisplay();
+    }
+
+    private void updateFilterOptions() {
+        Set<String> genres = new HashSet<>();
+
+        for (Libro libro : allLibros) {
+            genres.add(libro.getGenero());
+        }
+
+        for (String genre : genres) {
+            genreFilter.addItem(genre);
+        }
+    }
+
+    private void updateBookDisplay() {
+        booksPanel.removeAll();
+
+        String selectedGenre = (String) genreFilter.getSelectedItem();
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
@@ -76,17 +109,22 @@ public class BookManagement extends JPanel {
 
         int row = 0;
         int col = 0;
-        for (Libro libro : libros) {
-            gbc.gridx = col;
-            gbc.gridy = row;
-            booksPanel.add(new BookCard(libro), gbc);
+        for (Libro libro : allLibros) {
+            if (selectedGenre.equals("Todos los géneros") || libro.getGenero().equals(selectedGenre)) {
+                gbc.gridx = col;
+                gbc.gridy = row;
+                booksPanel.add(new BookCard(libro), gbc);
 
-            col++;
-            if (col > 2) {
-                col = 0;
-                row++;
+                col++;
+                if (col > 2) {
+                    col = 0;
+                    row++;
+                }
             }
         }
+
+        booksPanel.revalidate();
+        booksPanel.repaint();
     }
 
     private JButton createStyledButton(String text, Color bgColor) {
@@ -108,14 +146,14 @@ public class BookManagement extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 listener.actionPerformed(e);
-                updateView();
+                updateBookDisplay();
             }
         };
     }
 
     public void setUsuarioConectado(Usuario usuarioConectado) {
         this.usuarioConectado = usuarioConectado;
-        updateView();
+        updateBookDisplay();
     }
 
     private boolean isBookBorrowedByUser(Libro libro) {
@@ -301,9 +339,6 @@ public class BookManagement extends JPanel {
     }
 
     public void updateView() {
-        booksPanel.removeAll();
-        displayBooks();
-        booksPanel.revalidate();
-        booksPanel.repaint();
+        updateBookDisplay();
     }
 }
