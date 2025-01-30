@@ -311,7 +311,22 @@ public class Controlador {
         
         panelInformes.getBtnLibrosPopulares().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                generatePopularBooksReport();
+                generateReport("librosPopulares");
+            }
+        });
+        panelInformes.getBtnLibrosPrestados().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                generateReport("librosPrestados");
+            }
+        });
+        panelInformes.getBtnGenerosLiterarios().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                generateReport("generosPopulares");
+            }
+        });
+        panelInformes.getBtnUsuariosMasLibrosPrestados().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                generateReport("usuariosMasPrestamos");
             }
         });
     }
@@ -364,7 +379,7 @@ public class Controlador {
         }
     }
     
-    private void generatePopularBooksReport() {
+    private void generateReport(String name) {
         try {
             // Initialize the Platform
             EngineConfig config = new EngineConfig();
@@ -374,13 +389,13 @@ public class Controlador {
             IReportEngine engine = factory.createReportEngine(config);
 
             // Open the report design
-            IReportRunnable design = engine.openReportDesign("src/reports/librosPopulares.rptdesign");
+            IReportRunnable design = engine.openReportDesign("src/reports/"+name+".rptdesign");
 
             // Create task to run and render the report
             IRunAndRenderTask task = engine.createRunAndRenderTask(design);
 
             // Set output options
-            String outputFileName = "librosPopulares.pdf";
+            String outputFileName = name+".pdf";
             IRenderOption options = new RenderOption();
             options.setOutputFormat("pdf");
             options.setOutputFileName(outputFileName);
