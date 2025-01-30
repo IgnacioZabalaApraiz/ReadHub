@@ -67,18 +67,34 @@ public class UsuariosCRUD {
         }
     }
 
-    public boolean eliminarUsuario(int id) {
+    public boolean eliminarUsuario(Object userId) {
         Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            Usuario usuario = session.get(Usuario.class, id);
-            if (usuario != null) {
-                session.delete(usuario);
-                transaction.commit();
-                return true;
+            // Verifica si hay una transacción activa
+            if (!session.getTransaction().isActive()) {
+                transaction = session.beginTransaction();
             } else {
-                System.out.println("Usuario no encontrado.");
+                transaction = session.getTransaction();
+            }
+
+            if (userId instanceof Long || userId instanceof Integer) {
+                // Convertir el Object a Long (o Integer según sea necesario)
+                Long userIdLong = (userId instanceof Long) ? (Long) userId : Long.valueOf((Integer) userId);
+
+                // Buscar el usuario por su ID
+                Usuario usuario = session.get(Usuario.class, userIdLong);
+                if (usuario != null) {
+                    // Eliminar usuario
+                    session.delete(usuario);
+                    transaction.commit();
+                    return true;
+                } else {
+                    System.out.println("Usuario no encontrado.");
+                    return false;
+                }
+            } else {
+                System.out.println("El tipo de userId no es válido.");
                 return false;
             }
         } catch (Exception e) {
@@ -87,14 +103,80 @@ public class UsuariosCRUD {
             }
             e.printStackTrace();
             return false;
+        } finally {
+            // Cerrar la sesión si ya no se usa
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
+    public boolean editarUsuario(Object userId, String nuevoNombre, String nuevoApellido, String nuevoEmail, int nuevoTelefono, String nuevoRol) {
+        Session session = HibernateUtil.getSession();
+        Transaction transaction = null;
+        try {
+            // Verifica si hay una transacción activa
+            if (!session.getTransaction().isActive()) {
+                transaction = session.beginTransaction();
+            } else {
+                transaction = session.getTransaction();
+            }
+
+            // Validar el tipo de userId
+            if (userId instanceof Long || userId instanceof Integer) {
+                Long userIdLong = (userId instanceof Long) ? (Long) userId : Long.valueOf((Integer) userId);
+
+                // Obtener el usuario por ID
+                Usuario usuario = session.get(Usuario.class, userIdLong);
+                if (usuario != null) {
+                    // Actualizar los datos del usuario
+                    usuario.setNombre(nuevoNombre);
+                    usuario.setEmail(nuevoEmail);
+                    usuario.setTelefono(nuevoTelefono);
+                    usuario.setApellidos(nuevoApellido);
+                    
+                    try {
+                        usuario.setRol(Usuario.Rol.valueOf(nuevoRol.toLowerCase()));
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Rol inválido: " + nuevoRol);
+                        return false;
+                    }
+
+                    // Guardar los cambios
+                    session.update(usuario);
+                    transaction.commit();
+                    return true;
+                } else {
+                    System.out.println("Usuario no encontrado.");
+                    return false;
+                }
+            } else {
+                System.out.println("El tipo de userId no es válido.");
+                return false;
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Cerrar la sesión si ya no se usa
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+
+
+
 
     public boolean actualizarUsuario(Usuario usuario) {
         Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            // Aquí actualizas el usuario con los nuevos datos
             session.update(usuario);
             transaction.commit();
             return true;
@@ -103,8 +185,12 @@ public class UsuariosCRUD {
                 transaction.rollback();
             }
             e.printStackTrace();
-            return false; //false
+            return false;
+        } finally {
+            // Cerrar la sesión si ya no se usa
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 }
-

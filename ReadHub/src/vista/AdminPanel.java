@@ -9,9 +9,17 @@ import java.util.List;
 
 public class AdminPanel extends JPanel {
     private JTable table;
+    private JPanel titlePanel;
     private DefaultTableModel tableModel;
     private UsuarioServiceImpl usuarioService;
-
+    private JLabel titleLabel;
+    private JButton reloadButton;
+    private JButton removeButton;
+    private JButton grantPermissionButton;
+    private JButton deleteButton;
+    private JButton editButton;  // Botón para editar
+    private JButton backButton;
+    
     public AdminPanel() {
         setLayout(new BorderLayout());
         setBackground(new Color(255, 244, 255));
@@ -19,16 +27,23 @@ public class AdminPanel extends JPanel {
         usuarioService = new UsuarioServiceImpl();
         
         // Create title
-        JLabel titleLabel = new JLabel("Panel de Administración", SwingConstants.CENTER);
+        titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(255, 244, 255));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        titleLabel = new JLabel("Panel de Administración");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titleLabel.setForeground(new Color(95, 88, 191));
-        add(titleLabel, BorderLayout.NORTH);
-
+        titlePanel.add(titleLabel);
+        add(titlePanel, BorderLayout.NORTH);
+        
         // Create table
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID Usuario");
         tableModel.addColumn("Nombre");
         tableModel.addColumn("Email");
+        tableModel.addColumn("Telefono");
+        tableModel.addColumn("Rol");
         
         table = new JTable(tableModel);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -36,22 +51,30 @@ public class AdminPanel extends JPanel {
         table.setSelectionBackground(new Color(215, 205, 239));
         
         JScrollPane scrollPane = new JScrollPane(table);
-<<<<<<< HEAD
-
-=======
         scrollPane.setBackground(new Color(255, 244, 255));
         scrollPane.getViewport().setBackground(new Color(255, 244, 255));
->>>>>>> d095176d378e8e2129d3d73ed0d70854aced34ad
-        setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
         
         // Create button panel
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(255, 244, 255));
         
-        JButton reloadButton = createStyledButton("Recargar Usuarios", new Color(95, 88, 191));
+        reloadButton = createStyledButton("Recargar Usuarios", new Color(95, 88, 191));
         reloadButton.addActionListener(e -> loadUsers());
         buttonPanel.add(reloadButton);
+        
+       
+        
+        
+        deleteButton = createStyledButton("Borrar", new Color(200, 50, 50));
+        buttonPanel.add(deleteButton);
+        
+        // Botón de editar
+        editButton = createStyledButton("Editar", new Color(100, 150, 255));
+        buttonPanel.add(editButton);
+        
+        backButton = createStyledButton("Volver", new Color(150, 150, 150));
+        buttonPanel.add(backButton);
         
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -78,9 +101,43 @@ public class AdminPanel extends JPanel {
                 tableModel.addRow(new Object[]{
                     usuario.getIdUsuario(),
                     usuario.getNombre() + " " + usuario.getApellidos(),
-                    usuario.getEmail()
+                    usuario.getEmail(),
+                    usuario.getTelefono(),
+                    usuario.getRol()
                 });
             }
         }
+    }
+
+    public JButton getReloadButton() {
+        return reloadButton;
+    }
+
+    public JButton getRemoveButton() {
+        return removeButton;
+    }
+
+    public JButton getGrantPermissionButton() {
+        return grantPermissionButton;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
+    }
+
+    public JButton getEditButton() {
+        return editButton;
+    }
+
+    public JButton getBackButton() {
+        return backButton;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public DefaultTableModel getTableModel() {
+        return tableModel;
     }
 }

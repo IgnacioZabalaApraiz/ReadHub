@@ -134,16 +134,19 @@ public class Controlador {
                 mostrarPanel("main");
             }
         });
+        
 		bookAdminManagement.getBackButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("adminSelection");
 			}
 		});
+		
         bookManagementPanel.getBackButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("main");
             }
         });
+        
     	adminSelection.getInformesBt().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("panelInformes");
@@ -155,11 +158,75 @@ public class Controlador {
 				mostrarPanel("adminPanel");
 			}
 		});
+		
 		adminSelection.getBookmodifyBt().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarPanel("bookAdminManagement");
 			}
 		});
+		
+		adminSelection.getCloseBt().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("main");
+            }
+        });
+		adminPanel.getDeleteButton().addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int selectedRow = adminPanel.getTable().getSelectedRow();		        
+		        if (selectedRow != -1) {
+		          var userId =  adminPanel.getTable().getModel().getValueAt(selectedRow, 0);		            
+		            boolean success = usuariosCRUD.eliminarUsuario(userId);		          
+		            if (success) {
+		                JOptionPane.showMessageDialog(mainFrame, "Usuario eliminado exitosamente.");
+		                adminPanel.loadUsers();
+		            } else {
+		                JOptionPane.showMessageDialog(mainFrame, "Error al eliminar el usuario.");
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(mainFrame, "Por favor, selecciona un usuario para eliminar.");
+		        }
+		    }
+		});
+		adminPanel.getEditButton().addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Obtener la fila seleccionada
+		        int selectedRow = adminPanel.getTable().getSelectedRow();
+		        
+		        if (selectedRow != -1) {
+		            // Obtener el ID del usuario seleccionado
+		            Object userId = adminPanel.getTable().getModel().getValueAt(selectedRow, 0); // ID como Object
+		            
+		            // Pedir los nuevos datos para editar
+		            String nuevoNombre = JOptionPane.showInputDialog(adminPanel, "Nuevo nombre:");
+		            String nuevoApellido = JOptionPane.showInputDialog(adminPanel, "Nuevo apellido:");
+
+		            String nuevoEmail = JOptionPane.showInputDialog(adminPanel, "Nuevo email:");
+		            String telefonoStr = JOptionPane.showInputDialog(adminPanel, "Nuevo teléfono:");
+		            String nuevoRol = JOptionPane.showInputDialog(adminPanel, "Nuevo rol (usuario/administrador):");
+		            
+		            int nuevoTelefono = 0;
+		            try {
+		                nuevoTelefono = Integer.parseInt(telefonoStr); // Convertir teléfono a int
+		            } catch (NumberFormatException ex) {
+		                JOptionPane.showMessageDialog(adminPanel, "El teléfono debe ser un número válido.");
+		                return;
+		            }
+		            
+		            // Llamar al método de edición de usuario
+		            boolean success = usuariosCRUD.editarUsuario(userId, nuevoNombre,nuevoApellido, nuevoEmail, nuevoTelefono, nuevoRol);
+
+		            if (success) {
+		                JOptionPane.showMessageDialog(adminPanel, "Usuario actualizado exitosamente.");
+		                adminPanel.loadUsers(); // Recargar los usuarios en la tabla
+		            } else {
+		                JOptionPane.showMessageDialog(adminPanel, "Error al actualizar el usuario.");
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(adminPanel, "Por favor, selecciona un usuario para editar.");
+		        }
+		    }
+		});
+
         loginPanel.getIniciarBt().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String usuario = loginPanel.getTxtUsuario().getText();
@@ -187,8 +254,6 @@ public class Controlador {
                 }
             }
         });
- 
-
         registroPanel.getBtnRegistrar().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String nombre = registroPanel.getTxtNombre().getText();
@@ -220,7 +285,11 @@ public class Controlador {
                 reserveBook(libro);
             }
         });
-        
+        adminPanel.getBackButton() .addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                mostrarPanel("adminSelection");
+            }
+        });
         panelInformes.getBtnVolver().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 mostrarPanel("adminSelection");
