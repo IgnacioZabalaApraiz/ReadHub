@@ -264,16 +264,16 @@ public class Controlador {
                 int dni = Integer.parseInt(registroPanel.getTxtDni().getText());
 
                 if (usuariosCRUD.registrarUsuario(nombre, apellidos, contrasena, email, dni, telefono)) {
-                    JOptionPane.showMessageDialog(mainFrame,
-                            "Usuario registrado exitosamente.",
-                            "Registro exitoso",
-                            JOptionPane.INFORMATION_MESSAGE);
+                	JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     mostrarPanel("login");
+                    registroPanel.getTxtNombre().setText("");
+                    registroPanel.getTxtApellidos().setText("");
+                    registroPanel.getTxtEmail().setText("");
+                    registroPanel.getTxtTelefono().setText("");
+                    registroPanel.getTxtPassword().setText("");
+                    registroPanel.getTxtDni().setText("");
                 } else {
-                    JOptionPane.showMessageDialog(mainFrame,
-                            "Error al registrar usuario. Intente de nuevo.",
-                            "Error de registro",
-                            JOptionPane.ERROR_MESSAGE);
+                	JOptionPane.showMessageDialog(null, "Error al registrar usuario.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

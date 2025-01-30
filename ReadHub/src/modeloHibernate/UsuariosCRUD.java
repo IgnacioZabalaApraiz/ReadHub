@@ -5,6 +5,9 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import servicio.HibernateUtil;
 
 public class UsuariosCRUD {
@@ -14,22 +17,72 @@ public class UsuariosCRUD {
     }
 
     public boolean registrarUsuario(String nombre, String apellidos, String contrasena, String email, int dni, int telefono) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if (apellidos == null || apellidos.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Los apellidos no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (contrasena == null || contrasena.length() < 6) {
+            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 6 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            JOptionPane.showMessageDialog(null, "El email no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (String.valueOf(dni).length() != 8) {
+            JOptionPane.showMessageDialog(null, "El DNI debe tener exactamente 8 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (String.valueOf(telefono).length() != 9) {
+            JOptionPane.showMessageDialog(null, "El teléfono debe tener exactamente 9 dígitos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+
+            String hql = "FROM Usuario WHERE email = :email OR dni = :dni";
+            Query<Usuario> query = session.createQuery(hql, Usuario.class);
+            query.setParameter("email", email);
+            query.setParameter("dni", dni);
+            
+            List<Usuario> usuariosExistentes = query.list();
+            if (!usuariosExistentes.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El email o DNI ya están registrados.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
             Usuario usuario = new Usuario(nombre, apellidos, contrasena, email, dni, telefono);
             session.persist(usuario);
+            
             transaction.commit();
             return true;
+            
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
+            
             return false;
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
+
 
     public Usuario iniciarSesion(String nombreUsuario, String contrasena) {
         Session session = HibernateUtil.getSession();
