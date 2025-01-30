@@ -307,6 +307,12 @@ public class Controlador {
                 abrirFormularioLibro();
             }
         });
+        
+        panelInformes.getBtnLibrosPopulares().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                generatePopularBooksReport();
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
