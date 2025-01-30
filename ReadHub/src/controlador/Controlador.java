@@ -22,6 +22,7 @@ import vista.AdminPanel;
 import vista.AdminSelection;
 import vista.BookAdminManagement;
 import vista.BookManagement;
+import vista.FormularioLibro;
 import modeloHibernate.LibrosCRUD;
 import modeloHibernate.UsuariosCRUD;
 import modeloHibernate.Libro;
@@ -295,6 +296,13 @@ public class Controlador {
                 mostrarPanel("adminSelection");
             }
         });
+        
+        bookAdminManagement.getAddBookButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirFormularioLibro();
+            }
+        });
     }
 
     private void mostrarPanel(String panelName) {
@@ -314,6 +322,12 @@ public class Controlador {
             showStyledMessage("Has devuelto el libro: " + libro.getTitulo(), "Devolución Exitosa", JOptionPane.INFORMATION_MESSAGE);
         }
         bookManagementPanel.updateView();
+    }
+    
+
+    private void abrirFormularioLibro() {
+        FormularioLibro formularioLibro = new FormularioLibro(libroService);
+        formularioLibro.setVisible(true);
     }
 
     private void showStyledMessage(String message, String title, int messageType) {
