@@ -31,6 +31,7 @@ public class BookManagement extends JPanel {
     private Usuario usuarioConectado;
     private JComboBox<String> genreFilter;
     private List<Libro> allLibros;
+    public static BookManagement instance;
 
     public BookManagement(Session session) {
         this(session, null);
@@ -39,6 +40,7 @@ public class BookManagement extends JPanel {
     public BookManagement(Session session, Usuario usuarioConectado) {
         this.session = session;
         this.usuarioConectado = usuarioConectado;
+        BookManagement.instance = this;
         setLayout(new BorderLayout());
         setBackground(new Color(255, 244, 255));
 
@@ -153,7 +155,7 @@ public class BookManagement extends JPanel {
 
     public void setUsuarioConectado(Usuario usuarioConectado) {
         this.usuarioConectado = usuarioConectado;
-        updateBookDisplay();
+        updateView();
     }
 
     private boolean isBookBorrowedByUser(Libro libro) {
@@ -339,6 +341,17 @@ public class BookManagement extends JPanel {
     }
 
     public void updateView() {
+        // 1) Elimina todo del panel, para empezar limpio
+        booksPanel.removeAll();
+
+        // 2) Carga la lista de libros desde BD (allLibros)
+        loadBooks();
+
+        // 3) Vuelve a “pintar” los libros, aplicando el filtro de género
         updateBookDisplay();
+
+        // 4) Fuerza a Swing a recalcular y repintar
+        booksPanel.revalidate();
+        booksPanel.repaint();
     }
 }
