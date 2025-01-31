@@ -50,7 +50,11 @@ public class UsuariosCRUD {
         Session session = HibernateUtil.getSession();
         Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+        	if (!session.getTransaction().isActive()) {
+        	    transaction = session.beginTransaction();
+        	} else {
+        		transaction = session.getTransaction();
+        	}
 
             String hql = "FROM Usuario WHERE email = :email OR dni = :dni";
             Query<Usuario> query = session.createQuery(hql, Usuario.class);
@@ -76,11 +80,7 @@ public class UsuariosCRUD {
             e.printStackTrace();
             
             return false;
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        } 
     }
 
 
@@ -156,12 +156,7 @@ public class UsuariosCRUD {
             }
             e.printStackTrace();
             return false;
-        } finally {
-            // Cerrar la sesión si ya no se usa
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        } 
     }
     public boolean editarUsuario(Object userId, String nuevoNombre, String nuevoApellido, String nuevoEmail, int nuevoTelefono, String nuevoRol) {
         Session session = HibernateUtil.getSession();
@@ -212,12 +207,7 @@ public class UsuariosCRUD {
             }
             e.printStackTrace();
             return false;
-        } finally {
-            // Cerrar la sesión si ya no se usa
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        } 
     }
 
 
@@ -239,11 +229,6 @@ public class UsuariosCRUD {
             }
             e.printStackTrace();
             return false;
-        } finally {
-            // Cerrar la sesión si ya no se usa
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        } 
     }
 }

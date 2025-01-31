@@ -74,18 +74,18 @@ public class PanelInformes extends JPanel {
 		gbc.gridwidth = 2;
 		add(btnLibrosPopulares, gbc);
 
-		btnReporteFinanciero = new JButton("Reporte financiero");
-		btnReporteFinanciero.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		btnReporteFinanciero.setForeground(Color.WHITE);
-		btnReporteFinanciero.setBackground(new Color(215, 205, 239)); // #d7cdef
-		btnReporteFinanciero.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		btnReporteFinanciero.setFocusPainted(false);
-		btnReporteFinanciero.addActionListener(null
-				);
-		gbc.gridx = 0;
-		gbc.gridy = 4;
-		gbc.gridwidth = 2;
-		add(btnReporteFinanciero, gbc);
+//		btnReporteFinanciero = new JButton("Reporte financiero");
+//		btnReporteFinanciero.setFont(new Font("Segoe UI", Font.BOLD, 14));
+//		btnReporteFinanciero.setForeground(Color.WHITE);
+//		btnReporteFinanciero.setBackground(new Color(215, 205, 239)); // #d7cdef
+//		btnReporteFinanciero.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+//		btnReporteFinanciero.setFocusPainted(false);
+//		btnReporteFinanciero.addActionListener(null
+//				);
+//		gbc.gridx = 0;
+//		gbc.gridy = 4;
+//		gbc.gridwidth = 2;
+//		add(btnReporteFinanciero, gbc);
 
 		btnGenerosLiterarios = new JButton("Tendencias por género literario");
 		btnGenerosLiterarios.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -96,7 +96,7 @@ public class PanelInformes extends JPanel {
 		btnGenerosLiterarios.addActionListener(null
 				);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 4;
 		gbc.gridwidth = 2;
 		add(btnGenerosLiterarios, gbc);
 
